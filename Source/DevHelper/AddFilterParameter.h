@@ -37,28 +37,31 @@
 
 #include <QtWidgets/QWidget>
 
-#include "ui_AddFilterParameter.h"
+namespace Ui
+{
+class AddFilterParameter;
+}
 
-class AddFilterParameter : public QWidget, public Ui::AddFilterParameter
+class AddFilterParameter : public QWidget
 {
     Q_OBJECT
 
   public:
     AddFilterParameter(QWidget* parent = nullptr);
-    ~AddFilterParameter();
+    ~AddFilterParameter() override;
 
-    QString getVariableName();
-    QString getHumanName();
-    QString getType();
-    QString getCategory();
-    QList<QString> getTypeList();
-    QString getInitValue();
+    QString getVariableName() const;
+    QString getHumanName() const;
+    QString getType() const;
+    QString getCategory() const;
+    QList<QString> getTypeList() const;
+    QString getInitValue() const;
 
-    void setVariableName(QString varName);
-    void setHumanName(QString humanName);
-    void setType(QString type);
-    void setCategory(QString category);
-    void setInitValue(QString initValue);
+    void setVariableName(const QString& varName);
+    void setHumanName(const QString& humanName);
+    void setType(const QString& type);
+    void setCategory(const QString& category);
+    void setInitValue(const QString& initValue);
 
   protected:
     void setupGui();
@@ -75,9 +78,9 @@ class AddFilterParameter : public QWidget, public Ui::AddFilterParameter
     //void on_initValue_textChanged(const QString &text);
 
   private:
-
-    bool filledOutCheck();
-    bool filledOutCheck_NoVarName();
+    QSharedPointer<Ui::AddFilterParameter> m_Ui = nullptr;
+    bool filledOutCheck() const;
+    bool filledOutCheck_NoVarName() const;
 
   public:
     AddFilterParameter(const AddFilterParameter&) = delete;            // Copy Constructor Not Implemented

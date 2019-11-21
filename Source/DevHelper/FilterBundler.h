@@ -41,50 +41,30 @@
 
 class FilterBundler
 {
-
   public:
     FilterBundler();
     FilterBundler(PMFileGenerator* cppfile, PMFileGenerator* hfile,
                   PMFileGenerator* htmlfile, PMFileGenerator* testfile,
                   bool pub_filter);
-    virtual ~FilterBundler() {}
+    ~FilterBundler();
 
-    PMFileGenerator* getCPPGenerator();
-    PMFileGenerator* getHGenerator();
-    PMFileGenerator* getHTMLGenerator();
-    PMFileGenerator* getTestGenerator();
-    bool             isPublic();
+    PMFileGenerator* getCPPGenerator() const;
+    PMFileGenerator* getHGenerator() const;
+    PMFileGenerator* getHTMLGenerator() const;
+    PMFileGenerator* getTestGenerator() const;
+    bool             isPublic() const;
 
 
-    bool containsTreeWidgetItem(QTreeWidgetItem* item);
+    bool containsTreeWidgetItem(QTreeWidgetItem* item) const;
 
-    FilterBundler(const FilterBundler& rhs)
-    {
-      cppfile = rhs.cppfile;
-      hfile = rhs.hfile;
-      htmlfile = rhs.htmlfile;
-      publicFilter = rhs.publicFilter;
-      testfile = rhs.testfile;
-    }
+    FilterBundler(const FilterBundler& rhs);
 
-    void operator=(const FilterBundler& rhs)
-    {
-      cppfile = rhs.cppfile;
-      hfile = rhs.hfile;
-      htmlfile = rhs.htmlfile;
-      publicFilter = rhs.publicFilter;
-      testfile = rhs.testfile;
-    }
-
-  protected:
+    void operator=(const FilterBundler& rhs);
 
   private:
     PMFileGenerator* cppfile;
     PMFileGenerator* hfile;
     PMFileGenerator* htmlfile;
     PMFileGenerator* testfile;
-    bool publicFilter;
-
-
+    bool publicFilter = false;
 };
-

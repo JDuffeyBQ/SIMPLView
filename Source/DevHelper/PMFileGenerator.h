@@ -33,7 +33,6 @@
 *
 * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
-
 #pragma once
 
 #include "PMDirGenerator.h"
@@ -53,10 +52,10 @@ class PMFileGenerator : public PMDirGenerator
     Q_OBJECT
 
   public:
-    PMFileGenerator(QString outputDir, QString pathTemplate, QString fileName, QString codeTemplateResourcePath, QTreeWidgetItem* wi, QObject* parent = nullptr);
+    PMFileGenerator(const QString& outputDir, const QString& pathTemplate, const QString& fileName, const QString& codeTemplateResourcePath, QTreeWidgetItem* wi, QObject* parent = nullptr);
     ~PMFileGenerator() override;
 
-    QString getFileName();
+    QString getFileName() const;
 
     void setSetupFPContents(const QString& contents);
     void setDataCheckContents(const QString& contents);
@@ -68,12 +67,12 @@ class PMFileGenerator : public PMDirGenerator
     void setFilterParameterDefinitions(const QString& contents);
     void setFilterParameterDeclarations(const QString& contents);
 
-    QString generateFileContents(QString replaceStr = "") override;
+    QString generateFileContents(const QString& replaceStr = "") const override;
 
-    QString createReplacementString(FileType type, QSet<QString> names);
+    QString createReplacementString(FileType type, const QSet<QString>& names) const;
 
   public slots:
-    void generateOutput() override;
+    void generateOutput() const override;
 
   protected slots:
     void pluginNameChanged(const QString& plugname) override;
@@ -94,7 +93,7 @@ class PMFileGenerator : public PMDirGenerator
   private:
     QString m_FileName;
 
-    QString getFileContents(const QString& replaceStr);
+    QString getFileContents(const QString& replaceStr) const;
 };
 
 

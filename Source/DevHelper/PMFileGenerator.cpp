@@ -52,10 +52,7 @@
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-PMFileGenerator::PMFileGenerator(QString outputDir,
-                                 QString pathTemplate,
-                                 QString fileName,
-                                 QString codeTemplateResourcePath,
+PMFileGenerator::PMFileGenerator(const QString& outputDir, const QString& pathTemplate, const QString& fileName, const QString& codeTemplateResourcePath,
                                  QTreeWidgetItem* wi,
                                  QObject* parent):
   PMDirGenerator(outputDir, pathTemplate, QString(""), codeTemplateResourcePath, wi, parent),
@@ -76,15 +73,12 @@ PMFileGenerator::PMFileGenerator(QString outputDir,
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-PMFileGenerator::~PMFileGenerator()
-{
-  
-}
+PMFileGenerator::~PMFileGenerator() = default;
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString PMFileGenerator::getFileName()
+QString PMFileGenerator::getFileName() const
 {
   return m_FileName;
 }
@@ -131,7 +125,7 @@ void PMFileGenerator::outputDirChanged(const QString& outputDir)
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-void PMFileGenerator::generateOutput()
+void PMFileGenerator::generateOutput() const
 {
 //  qDebug() << "PMFileGenerator::generateOutput" << "\n";
   if (doesGenerateOutput() == false)
@@ -173,7 +167,7 @@ void PMFileGenerator::generateOutput()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString PMFileGenerator::generateFileContents(QString replaceStr)
+QString PMFileGenerator::generateFileContents(const QString& replaceStr) const
 {
   QString pluginName = getPluginName();
 
@@ -185,7 +179,7 @@ QString PMFileGenerator::generateFileContents(QString replaceStr)
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString PMFileGenerator::getFileContents(const QString& replaceStr)
+QString PMFileGenerator::getFileContents(const QString& replaceStr) const
 {
   //Get text feature values from widget
   QString pluginName = getPluginName();
@@ -337,7 +331,7 @@ void PMFileGenerator::generateOutputWithFilterNames(QSet<QString> names)
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString PMFileGenerator::createReplacementString(FileType type, QSet<QString> names)
+QString PMFileGenerator::createReplacementString(FileType type, const QSet<QString>& names) const
 {
   QString pluginName = getPluginName();
 
@@ -346,8 +340,8 @@ QString PMFileGenerator::createReplacementString(FileType type, QSet<QString> na
   if (type == CMAKELISTS)
   {
     // Build up the huge string full of namespaces using names
-    QSet<QString>::iterator iter = names.begin();
-    while (iter != names.end())
+    QSet<QString>::const_iterator iter = names.cbegin();
+    while (iter != names.cend())
     {
       QString name = *iter;
 
@@ -362,8 +356,8 @@ QString PMFileGenerator::createReplacementString(FileType type, QSet<QString> na
   else if (type == TESTFILELOCATIONS)
   {
     // Build up the huge string full of namespaces using names
-    QSet<QString>::iterator iter = names.begin();
-    while (iter != names.end())
+    QSet<QString>::const_iterator iter = names.cbegin();
+    while (iter != names.cend())
     {
       QString name = *iter;
 
@@ -377,7 +371,7 @@ QString PMFileGenerator::createReplacementString(FileType type, QSet<QString> na
       replaceStr.append("    const QString TestFile1(\"@TEST_TEMP_DIR@/TestFile1.txt\");\n");
       replaceStr.append("    const QString TestFile2(\"@TEST_TEMP_DIR@/TestFile2.txt\");\n");
       replaceStr.append("  }\n");
-      if (++iter != names.end())
+      if (++iter != names.cend())
       {
         replaceStr.append("\n");
       }

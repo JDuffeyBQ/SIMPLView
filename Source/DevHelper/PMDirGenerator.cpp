@@ -41,16 +41,13 @@
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-PMDirGenerator::PMDirGenerator(QString outputDir, QString pathTemplate, QString dirName,
-                               QString codeTemplateResourcePath, QTreeWidgetItem* wi,
+PMDirGenerator::PMDirGenerator(const QString& outputDir, const QString& pathTemplate, const QString& dirName, const QString& codeTemplateResourcePath, QTreeWidgetItem* wi,
                                QObject* parent) :
   QObject(parent),
   m_OutputDir(outputDir),
   m_PathTemplate(pathTemplate),
   m_DirName(dirName),
   m_CodeTemplateResourcePath(codeTemplateResourcePath),
-  m_NameChangeable(false),
-  m_DoesGenerateOutput(false),
   m_TreeWidgetItem(wi)
 {
 }
@@ -58,14 +55,12 @@ PMDirGenerator::PMDirGenerator(QString outputDir, QString pathTemplate, QString 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-PMDirGenerator::~PMDirGenerator()
-{
-}
+PMDirGenerator::~PMDirGenerator() = default;
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-void PMDirGenerator::setOutputDir(QString v)
+void PMDirGenerator::setOutputDir(const QString& v)
 {
   m_OutputDir = v;
 }
@@ -73,7 +68,7 @@ void PMDirGenerator::setOutputDir(QString v)
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString PMDirGenerator::getPluginName()
+QString PMDirGenerator::getPluginName() const
 {
   return m_PluginName;
 }
@@ -81,7 +76,7 @@ QString PMDirGenerator::getPluginName()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString PMDirGenerator::getFilterName()
+QString PMDirGenerator::getFilterName() const
 {
   return m_FilterName;
 }
@@ -97,7 +92,7 @@ void PMDirGenerator::setFilterName(const QString &filterName)
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString PMDirGenerator::getOutputDir()
+QString PMDirGenerator::getOutputDir() const
 {
   return m_OutputDir;
 }
@@ -105,7 +100,7 @@ QString PMDirGenerator::getOutputDir()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString PMDirGenerator::getPathTemplate()
+QString PMDirGenerator::getPathTemplate() const
 {
   return m_PathTemplate;
 }
@@ -113,7 +108,7 @@ QString PMDirGenerator::getPathTemplate()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString PMDirGenerator::getDirName()
+QString PMDirGenerator::getDirName() const
 {
   return m_DirName;
 }
@@ -122,7 +117,7 @@ QString PMDirGenerator::getDirName()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString PMDirGenerator::getCodeTemplateResourcePath()
+QString PMDirGenerator::getCodeTemplateResourcePath() const
 {
   return m_CodeTemplateResourcePath;
 }
@@ -138,7 +133,7 @@ void PMDirGenerator::setNameChangeable(bool v)
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-bool PMDirGenerator::isNameChangeable()
+bool PMDirGenerator::isNameChangeable() const
 {
   return m_NameChangeable;
 }
@@ -154,7 +149,7 @@ void PMDirGenerator::setDoesGenerateOutput(bool v)
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-bool PMDirGenerator::doesGenerateOutput()
+bool PMDirGenerator::doesGenerateOutput() const
 {
   return m_DoesGenerateOutput;
 }
@@ -162,7 +157,7 @@ bool PMDirGenerator::doesGenerateOutput()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QTreeWidgetItem* PMDirGenerator::getTreeWidgetItem()
+QTreeWidgetItem* PMDirGenerator::getTreeWidgetItem() const
 {
   return m_TreeWidgetItem;
 }
@@ -170,7 +165,7 @@ QTreeWidgetItem* PMDirGenerator::getTreeWidgetItem()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-void PMDirGenerator::setDisplaySuffix(QString v)
+void PMDirGenerator::setDisplaySuffix(const QString& v)
 {
   m_DisplaySuffix = v;
 }
@@ -178,7 +173,7 @@ void PMDirGenerator::setDisplaySuffix(QString v)
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString PMDirGenerator::getDisplaySuffix()
+QString PMDirGenerator::getDisplaySuffix() const
 {
   return m_DisplaySuffix;
 }
@@ -186,7 +181,7 @@ QString PMDirGenerator::getDisplaySuffix()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-void PMDirGenerator::setPluginName(QString pluginName)
+void PMDirGenerator::setPluginName(const QString& pluginName)
 {
   m_PluginName = pluginName;
 }
@@ -221,7 +216,7 @@ void PMDirGenerator::outputDirChanged(const QString& outputDir)
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-void PMDirGenerator::generateOutput()
+void PMDirGenerator::generateOutput() const
 {
 //  qDebug() << "PMDirGenerator::generateOutput" << "\n";
 }
@@ -229,22 +224,24 @@ void PMDirGenerator::generateOutput()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString PMDirGenerator::cleanName(QString name)
+QString PMDirGenerator::cleanName(const QString& name)
 {
+  QString cleanedName = name;
+
   //Remove all uses of "Plugin", "plugin", "Filter", and "filter"
   QRegExp rx("Filter|filter");
-  name = name.replace(rx, "");
+  cleanedName.replace(rx, "");
   //Remove all spaces and illegal characters from plugin name
-  name = name.trimmed();
-  name = name.remove(" ");
-  name = name.remove(QRegExp("[^a-zA-Z_\\d\\s]"));
-  return name;
+  cleanedName = cleanedName.trimmed();
+  cleanedName.remove(" ");
+  cleanedName.remove(QRegExp("[^a-zA-Z_\\d\\s]"));
+  return cleanedName;
 }
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString PMDirGenerator::generateFileContents(QString replaceStr)
+QString PMDirGenerator::generateFileContents(const QString& replaceStr) const
 {
   return "";
 }

@@ -49,7 +49,7 @@
 
 #include "HelpWidget.h"
 
-
+#include "ui_DevHelper.h"
 
 enum WidgetIndices
 {
@@ -60,11 +60,10 @@ enum WidgetIndices
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-DevHelper::DevHelper(QWidget* parent) :
-  QMainWindow(parent)
+DevHelper::DevHelper(QWidget* parent)
+  : QMainWindow(parent)
+, m_Ui(new Ui::DevHelper)
 {
-  setupUi(this);
-
   setupGui();
 
   readSettings();
@@ -89,28 +88,24 @@ DevHelper::~DevHelper()
 // -----------------------------------------------------------------------------
 void DevHelper::setupGui()
 {
+  m_Ui->setupUi(this);
+
   // Allow internal widgets to update the status bar
-  connect(filterMaker, SIGNAL(updateStatusBar(QString)), this, SLOT(updateStatusMessage(QString)));
-  connect(pluginMaker, SIGNAL(updateStatusBar(QString)), this, SLOT(updateStatusMessage(QString)));
+  connect(m_Ui->filterMaker, &FilterMaker::updateStatusBar, this, &DevHelper::updateStatusMessage);
+  connect(m_Ui->pluginMaker, &PluginMaker::updateStatusBar, this, &DevHelper::updateStatusMessage);
 
   //Set window to open at the center of the screen
   QDesktopWidget* desktop = QApplication::desktop();
 
-  int screenWidth, width;
-  int screenHeight, height;
-  int x, y;
-  QSize windowSize;
+  int screenWidth = desktop->width(); // get width of screen
+  int screenHeight = desktop->height(); // get height of screen
+  QSize windowSize = size(); // size of application window
 
-  screenWidth = desktop->width(); // get width of screen
-  screenHeight = desktop->height(); // get height of screen
+  int width = windowSize.width();
+  int height = windowSize.height();
 
-  windowSize = size(); // size of application window
-  width = windowSize.width();
-  height = windowSize.height();
-
-  x = (screenWidth - width) / 2;
-  y = (screenHeight - height) / 2;
-  y -= 50;
+  int x = (screenWidth - width) / 2;
+  int y = ((screenHeight - height) / 2) - 50;
 
   // move window to desired coordinates
   move(x, y);
@@ -121,7 +116,7 @@ void DevHelper::setupGui()
 // -----------------------------------------------------------------------------
 void DevHelper::updateStatusMessage(QString message)
 {
-  statusbar->showMessage(message);
+  m_Ui->statusbar->showMessage(message);
 }
 
 // -----------------------------------------------------------------------------
@@ -135,7 +130,7 @@ void DevHelper::closeEvent(QCloseEvent* event)
 // -----------------------------------------------------------------------------
 //  Write our Prefs to file
 // -----------------------------------------------------------------------------
-void DevHelper::writeSettings()
+void DevHelper::writeSettings() const
 {
   QtSSettings prefs;
 
@@ -144,25 +139,25 @@ void DevHelper::writeSettings()
   // Write PluginMaker settings
   prefs.beginGroup("PluginMaker");
   //Save the Plugin Name and Output Directory features to the QSettings object
-  prefs.setValue("Plugin Name", pluginMaker->m_PluginName->text());
-  prefs.setValue("Output Directory", pluginMaker->m_OutputDir->text());
+  prefs.setValue("Plugin Name", m_Ui->pluginMaker->getPluginName());
+  prefs.setValue("Output Directory", m_Ui->pluginMaker->getOutputDir());
   prefs.endGroup();
 
   // Write FilterMaker settings
   prefs.beginGroup("FilterMaker");
   //Save the Plugin Name and Output Directory features to the QSettings object
-  prefs.setValue("Plugin Directory", filterMaker->pluginDir->text());
-  prefs.setValue("Filter Name", filterMaker->filterName->text());
+  prefs.setValue("Plugin Directory", m_Ui->filterMaker->getPluginDir());
+  prefs.setValue("Filter Name", m_Ui->filterMaker->getFilterName());
   prefs.beginGroup("FilterParameters");
-  prefs.setValue("Count", filterMaker->filterParametersTable->rowCount());
-  for (int i = 0; i < filterMaker->filterParametersTable->rowCount(); i++)
+  prefs.setValue("Count", m_Ui->filterMaker->getFilterParametersRowCount());
+  for(int i = 0; i < m_Ui->filterMaker->getFilterParametersRowCount(); i++)
   {
     prefs.beginGroup(QString::number(i));
-    prefs.setValue("Variable Name", filterMaker->filterParametersTable->item(i, FilterMaker::VAR_NAME)->text());
-    prefs.setValue("Human Label", filterMaker->filterParametersTable->item(i, FilterMaker::HUMAN_NAME)->text());
-    prefs.setValue("Type", filterMaker->filterParametersTable->item(i, FilterMaker::TYPE)->text());
-    prefs.setValue("Category", filterMaker->filterParametersTable->item(i, FilterMaker::CATEGORY)->text());
-    prefs.setValue("Initial Value", filterMaker->filterParametersTable->item(i, FilterMaker::INIT_VALUE)->text());
+    prefs.setValue("Variable Name", m_Ui->filterMaker->getData(i, FilterMaker::VAR_NAME));
+    prefs.setValue("Human Label", m_Ui->filterMaker->getData(i, FilterMaker::HUMAN_NAME));
+    prefs.setValue("Type", m_Ui->filterMaker->getData(i, FilterMaker::TYPE));
+    prefs.setValue("Category", m_Ui->filterMaker->getData(i, FilterMaker::CATEGORY));
+    prefs.setValue("Initial Value", m_Ui->filterMaker->getData(i, FilterMaker::INIT_VALUE));
     prefs.endGroup();
   }
   prefs.endGroup();
@@ -174,7 +169,7 @@ void DevHelper::writeSettings()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-void DevHelper::writeWindowSettings(QtSSettings& prefs)
+void DevHelper::writeWindowSettings(QtSSettings& prefs) const
 {
   prefs.beginGroup("WindowSettings");
   QByteArray geo_data = saveGeometry();
@@ -195,15 +190,15 @@ void DevHelper::readSettings()
 
   prefs.beginGroup("PluginMaker");
   // Have PluginMaker read its settings
-  pluginMaker->m_PluginName->setText(prefs.value("Plugin Name", QString("")).toString());
-  pluginMaker->m_OutputDir->setText(prefs.value("Output Directory", QString("")).toString());
+  m_Ui->pluginMaker->setPluginName(prefs.value("Plugin Name", QString("")).toString());
+  m_Ui->pluginMaker->setOutputDir(prefs.value("Output Directory", QString("")).toString());
   readWindowSettings(prefs);
   prefs.endGroup();
 
   prefs.beginGroup("FilterMaker");
   // Have FilterMaker read its settings
-  filterMaker->pluginDir->setText(prefs.value("Plugin Directory", QString("")).toString());
-  filterMaker->filterName->setText(prefs.value("Filter Name", QString("")).toString());
+  m_Ui->filterMaker->setPluginDir(prefs.value("Plugin Directory", QString("")).toString());
+  m_Ui->filterMaker->setFilterName(prefs.value("Filter Name", QString("")).toString());
 
   prefs.beginGroup("FilterParameters");
   int count = prefs.value("Count", QVariant(0)).toInt();
@@ -217,7 +212,7 @@ void DevHelper::readSettings()
     addFilterParameter.setCategory(prefs.value("Category", QString("")).toString());
     addFilterParameter.setInitValue(prefs.value("Initial Value", QString("")).toString());
 
-    filterMaker->addFilterParameterToTable(&addFilterParameter);
+    m_Ui->filterMaker->addFilterParameterToTable(&addFilterParameter);
     prefs.endGroup();
   }
   prefs.endGroup();
@@ -273,9 +268,9 @@ void DevHelper::on_actionAbout_triggered()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-bool DevHelper::validityCheck()
+bool DevHelper::validityCheck() const
 {
-  return (pluginMaker->validityCheck() && filterMaker->validityCheck());
+  return (m_Ui->pluginMaker->validityCheck() && m_Ui->filterMaker->validityCheck());
 }
 
 

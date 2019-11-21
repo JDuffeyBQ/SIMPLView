@@ -33,7 +33,6 @@
 *
 * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
-
 #pragma once
 
 #include <QtCore/QObject>
@@ -48,35 +47,35 @@ class PMDirGenerator : public QObject
     Q_OBJECT
 
   public:
-    PMDirGenerator(QString outputDir, QString pathTemplate, QString dirName, QString codeTemplateResourcePath, QTreeWidgetItem* wi, QObject* parent = nullptr);
+    PMDirGenerator(const QString& outputDir, const QString& pathTemplate, const QString& dirName, const QString& codeTemplateResourcePath, QTreeWidgetItem* wi, QObject* parent = nullptr);
 
-    virtual ~PMDirGenerator();
+    ~PMDirGenerator() override;
 
     void setNameChangeable(bool v);
-    bool isNameChangeable();
+    bool isNameChangeable() const;
 
     void setDoesGenerateOutput(bool v);
-    bool doesGenerateOutput();
+    bool doesGenerateOutput() const;
 
-    void setOutputDir(QString v);
-    QString getOutputDir();
+    void setOutputDir(const QString& v);
+    QString getOutputDir() const;
 
-    QString getPathTemplate();
-    QString getDirName();
-    QString getCodeTemplateResourcePath();
+    QString getPathTemplate() const;
+    QString getDirName() const;
+    QString getCodeTemplateResourcePath() const;
 
-    QTreeWidgetItem* getTreeWidgetItem();
+    QTreeWidgetItem* getTreeWidgetItem() const;
 
-    QString getPluginName();
-    QString getFilterName();
+    QString getPluginName() const;
+    QString getFilterName() const;
     void setFilterName(const QString &filterName);
-    void setDisplaySuffix(QString v);
-    QString getDisplaySuffix();
-    void setPluginName(QString pluginName);
+    void setDisplaySuffix(const QString& v);
+    QString getDisplaySuffix() const;
+    void setPluginName(const QString& pluginName);
 
-    QString cleanName(QString name);
+    static QString cleanName(const QString& name);
 
-    virtual QString generateFileContents(QString replaceStr = "");
+    virtual QString generateFileContents(const QString& replaceStr = "") const;
 
   protected:
     QString                                                   m_FilterName;
@@ -84,24 +83,21 @@ class PMDirGenerator : public QObject
   protected slots:
     virtual void pluginNameChanged (const QString& plugname);
     virtual void outputDirChanged (const QString& outputDir);
-    virtual void generateOutput();
+    virtual void generateOutput() const;
 
   signals:
     void outputError(const QString& message);
     void filterSourceError(const QString& message);
-
 
   private:
     QString                                                   m_OutputDir;
     QString                                                   m_PathTemplate;
     QString                                                   m_DirName;
     QString                                                   m_CodeTemplateResourcePath;
-    bool                                                      m_NameChangeable;
-    bool                                                      m_DoesGenerateOutput;
+    bool                                                      m_NameChangeable = false;
+    bool                                                      m_DoesGenerateOutput = false;
     QTreeWidgetItem*                                          m_TreeWidgetItem;
     QString                                                   m_PluginName;
     QString                                                   m_DisplaySuffix;
 
 };
-
-

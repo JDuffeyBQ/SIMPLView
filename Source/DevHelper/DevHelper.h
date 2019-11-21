@@ -35,23 +35,26 @@
 
 #pragma once
 
-#include <QtWidgets/QWidget>
+#include <QtWidgets/QMainWindow>
 
 #include "SVWidgetsLib/QtSupport/QtSSettings.h"
 
-#include "ui_DevHelper.h"
-
 class HelpWidget;
 
-class DevHelper : public QMainWindow, public Ui::DevHelper
+namespace Ui
+{
+class DevHelper;
+}
+
+class DevHelper : public QMainWindow
 {
     Q_OBJECT
 
   public:
     DevHelper(QWidget* parent = nullptr);
-    ~DevHelper();
+    ~DevHelper() override;
 
-    bool validityCheck();
+    bool validityCheck() const;
 
   protected:
     void setupGui();
@@ -63,13 +66,14 @@ class DevHelper : public QMainWindow, public Ui::DevHelper
     void on_actionAbout_triggered();
 
   private:
+    QSharedPointer<Ui::DevHelper> m_Ui = nullptr;
     HelpWidget* m_HelpDialog = nullptr;
 
     void closeEvent(QCloseEvent* event);
-    void writeSettings();
+    void writeSettings() const;
     void readSettings();
     void readWindowSettings(QtSSettings& prefs);
-    void writeWindowSettings(QtSSettings& prefs);
+    void writeWindowSettings(QtSSettings& prefs) const;
 
   public:
     DevHelper(const DevHelper&) = delete;            // Copy Constructor Not Implemented
@@ -77,4 +81,3 @@ class DevHelper : public QMainWindow, public Ui::DevHelper
     DevHelper& operator=(const DevHelper&) = delete; // Copy Assignment Not Implemented
     DevHelper& operator=(DevHelper&&) = delete;      // Move Assignment Not Implemented
 };
-

@@ -39,15 +39,16 @@
 #include "DevHelper/PluginMaker.h"
 #include "DevHelper/FilterMaker.h"
 
+#include "ui_AddFilterParameter.h"
+
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-AddFilterParameter::AddFilterParameter(QWidget* parent) :
-  QWidget(parent)
+AddFilterParameter::AddFilterParameter(QWidget* parent)
+: QWidget(parent)
+, m_Ui(new Ui::AddFilterParameter)
 {
   setAttribute(Qt::WA_DeleteOnClose);
-
-  setupUi(this);
 
   setupGui();
 }
@@ -55,31 +56,31 @@ AddFilterParameter::AddFilterParameter(QWidget* parent) :
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-AddFilterParameter::~AddFilterParameter()
-{
-}
+AddFilterParameter::~AddFilterParameter() = default;
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
 void AddFilterParameter::setupGui()
 {
+  m_Ui->setupUi(this);
+
   // Populate the type combo box
   QList<QString> typeList = getTypeList();
   for (int i = 0; i < typeList.size(); i++)
   {
-    type->insertItem(i, typeList[i]);
+    m_Ui->type->insertItem(i, typeList[i]);
   }
 
   // Populate the category combo box
-  category->insertItem(0, "Parameter");
-  category->insertItem(1, "Required Arrays");
-  category->insertItem(2, "Created Arrays");
+  m_Ui->category->insertItem(0, "Parameter");
+  m_Ui->category->insertItem(1, "Required Arrays");
+  m_Ui->category->insertItem(2, "Created Arrays");
 
-  errorString->setText("");
+  m_Ui->errorString->setText("");
 
   // Update the "Add" button
-  addFilterParameterBtn->setEnabled(filledOutCheck());
+  m_Ui->addFilterParameterBtn->setEnabled(filledOutCheck());
 }
 
 // -----------------------------------------------------------------------------
@@ -98,13 +99,13 @@ void AddFilterParameter::on_addFilterParameterBtn_clicked()
 void AddFilterParameter::on_varName_textChanged(const QString& text)
 {
   // Update the "Add" button
-  if (type->currentText() == "SeparatorWidget")
+  if(m_Ui->type->currentText() == "SeparatorWidget")
   {
-    addFilterParameterBtn->setEnabled(filledOutCheck_NoVarName());
+    m_Ui->addFilterParameterBtn->setEnabled(filledOutCheck_NoVarName());
   }
   else
   {
-    addFilterParameterBtn->setEnabled(filledOutCheck());
+    m_Ui->addFilterParameterBtn->setEnabled(filledOutCheck());
   }
 }
 
@@ -114,13 +115,13 @@ void AddFilterParameter::on_varName_textChanged(const QString& text)
 void AddFilterParameter::on_humanName_textChanged(const QString& text)
 {
   // Update the "Add" button
-  if (type->currentText() == "SeparatorWidget")
+  if(m_Ui->type->currentText() == "SeparatorWidget")
   {
-    addFilterParameterBtn->setEnabled(filledOutCheck_NoVarName());
+    m_Ui->addFilterParameterBtn->setEnabled(filledOutCheck_NoVarName());
   }
   else
   {
-    addFilterParameterBtn->setEnabled(filledOutCheck());
+    m_Ui->addFilterParameterBtn->setEnabled(filledOutCheck());
   }
 }
 
@@ -131,25 +132,25 @@ void AddFilterParameter::on_type_currentTextChanged(const QString& text)
 {
   if (text == "SeparatorWidget")
   {
-    varName->clear();
-    initValue->clear();
-    varName->setEnabled(false);
-    initValue->setEnabled(false);
+    m_Ui->varName->clear();
+    m_Ui->initValue->clear();
+    m_Ui->varName->setEnabled(false);
+    m_Ui->initValue->setEnabled(false);
   }
   else
   {
-    varName->setEnabled(true);
-    initValue->setEnabled(true);
+    m_Ui->varName->setEnabled(true);
+    m_Ui->initValue->setEnabled(true);
   }
 
   // Update the "Add" button
-  if (type->currentText() == "SeparatorWidget")
+  if(m_Ui->type->currentText() == "SeparatorWidget")
   {
-    addFilterParameterBtn->setEnabled(filledOutCheck_NoVarName());
+    m_Ui->addFilterParameterBtn->setEnabled(filledOutCheck_NoVarName());
   }
   else
   {
-    addFilterParameterBtn->setEnabled(filledOutCheck());
+    m_Ui->addFilterParameterBtn->setEnabled(filledOutCheck());
   }
 }
 
@@ -174,39 +175,39 @@ void AddFilterParameter::on_cancelBtn_clicked()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString AddFilterParameter::getVariableName()
+QString AddFilterParameter::getVariableName() const
 {
-  return varName->text();
+  return m_Ui->varName->text();
 }
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString AddFilterParameter::getHumanName()
+QString AddFilterParameter::getHumanName() const
 {
-  return humanName->text();
+  return m_Ui->humanName->text();
 }
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString AddFilterParameter::getType()
+QString AddFilterParameter::getType() const
 {
-  return type->currentText();
+  return m_Ui->type->currentText();
 }
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString AddFilterParameter::getCategory()
+QString AddFilterParameter::getCategory() const
 {
-  return category->currentText();
+  return m_Ui->category->currentText();
 }
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QList<QString> AddFilterParameter::getTypeList()
+QList<QString> AddFilterParameter::getTypeList() const
 {
 #include "SVWidgetsLib/Filter_Parameter_TypeList.cpp"
 }
@@ -214,58 +215,57 @@ QList<QString> AddFilterParameter::getTypeList()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString AddFilterParameter::getInitValue()
+QString AddFilterParameter::getInitValue() const
 {
-  return initValue->text();
+  return m_Ui->initValue->text();
 }
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-void AddFilterParameter::setVariableName(QString varName)
+void AddFilterParameter::setVariableName(const QString& varName)
 {
-  this->varName->setText(varName);
+  m_Ui->varName->setText(varName);
 }
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-void AddFilterParameter::setHumanName(QString humanName)
+void AddFilterParameter::setHumanName(const QString& humanName)
 {
-  this->humanName->setText(humanName);
+  m_Ui->humanName->setText(humanName);
 }
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-void AddFilterParameter::setType(QString type)
+void AddFilterParameter::setType(const QString& type)
 {
-  this->type->setCurrentText(type);
+  m_Ui->type->setCurrentText(type);
 }
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-void AddFilterParameter::setCategory(QString category)
+void AddFilterParameter::setCategory(const QString& category)
 {
-  this->category->setCurrentText(category);
+  m_Ui->category->setCurrentText(category);
 }
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-void AddFilterParameter::setInitValue(QString initValue)
+void AddFilterParameter::setInitValue(const QString& initValue)
 {
-  this->initValue->setText(initValue);
+  m_Ui->initValue->setText(initValue);
 }
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-bool AddFilterParameter::filledOutCheck()
+bool AddFilterParameter::filledOutCheck() const
 {
-  if (type->currentIndex() >= 0 && varName->text().isEmpty() == false
-      && humanName->text().isEmpty() == false /* && initValue->text().isEmpty() == false */)
+  if(m_Ui->type->currentIndex() >= 0 && m_Ui->varName->text().isEmpty() == false && m_Ui->humanName->text().isEmpty() == false /* && initValue->text().isEmpty() == false */)
   {
     return true;
   }
@@ -278,9 +278,9 @@ bool AddFilterParameter::filledOutCheck()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-bool AddFilterParameter::filledOutCheck_NoVarName()
+bool AddFilterParameter::filledOutCheck_NoVarName() const
 {
-  if (type->currentIndex() >= 0 && humanName->text().isEmpty() == false /* && initValue->text().isEmpty() == false */)
+  if(m_Ui->type->currentIndex() >= 0 && m_Ui->humanName->text().isEmpty() == false /* && initValue->text().isEmpty() == false */)
   {
     return true;
   }

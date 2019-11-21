@@ -33,36 +33,52 @@
 *
 * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
-
 #include "AddFilterWidget.h"
 
+#include "ui_AddFilterWidget.h"
 
+namespace
+{
+QString cleanName(const QString& name)
+{
+  // Remove all spaces and illegal characters from plugin name
+  QString cleanedName = name.trimmed();
+  cleanedName.remove(" ");
+  cleanedName.remove(QRegExp("[^a-zA-Z_\\d\\s]"));
+  return cleanedName;
+}
+}
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
 AddFilterWidget::AddFilterWidget(QWidget* parent)
+: QDialog(parent)
+, m_Ui(new Ui::Dialog)
 {
-  setupUi(this);
-  addfilterOKButton->setEnabled(false);
-  BtnClicked = false;
-
+  m_Ui->setupUi(this);
+  m_Ui->addfilterOKButton->setEnabled(false);
 }
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-bool AddFilterWidget::isPublic()
+AddFilterWidget ::~AddFilterWidget() = default;
+
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
+bool AddFilterWidget::isPublic() const
 {
-  return m_PublicFilter->isChecked();
+  return m_Ui->m_PublicFilter->isChecked();
 }
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString AddFilterWidget::getFilterName()
+QString AddFilterWidget::getFilterName() const
 {
-  return ( filterName->text() );
+  return (m_Ui->filterName->text());
 }
 
 // -----------------------------------------------------------------------------
@@ -86,7 +102,7 @@ void AddFilterWidget::on_addfilterCancelButton_clicked()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-bool AddFilterWidget::getBtnClicked()
+bool AddFilterWidget::getBtnClicked() const
 {
   return BtnClicked;
 }
@@ -96,25 +112,13 @@ bool AddFilterWidget::getBtnClicked()
 // -----------------------------------------------------------------------------
 void AddFilterWidget::on_filterName_textChanged(const QString& text)
 {
-  QString filterName_clean = cleanName(filterName->text());
+  QString filterName_clean = cleanName(m_Ui->filterName->text());
   if ( filterName_clean.isEmpty() )
   {
-    addfilterOKButton->setEnabled(false);
+    m_Ui->addfilterOKButton->setEnabled(false);
   }
   else
   {
-    addfilterOKButton->setEnabled(true);
+    m_Ui->addfilterOKButton->setEnabled(true);
   }
-}
-
-// -----------------------------------------------------------------------------
-//
-// -----------------------------------------------------------------------------
-QString AddFilterWidget::cleanName(QString name)
-{
-  //Remove all spaces and illegal characters from plugin name
-  name = name.trimmed();
-  name = name.remove(" ");
-  name = name.remove(QRegExp("[^a-zA-Z_\\d\\s]"));
-  return name;
 }

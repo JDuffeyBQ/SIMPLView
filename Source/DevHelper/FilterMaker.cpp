@@ -50,15 +50,15 @@
 
 #include "SVWidgetsLib/QtSupport/QtSApplicationFileInfo.h"
 
-
+#include "ui_FilterMaker.h"
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
 FilterMaker::FilterMaker(QWidget* parent)
 : QWidget(parent)
+, m_Ui(new Ui::FilterMaker)
 {
-  setupUi(this);
   setupGui();
 }
 
@@ -72,44 +72,46 @@ FilterMaker::~FilterMaker() = default;
 // -----------------------------------------------------------------------------
 void FilterMaker::setupGui()
 {
+  m_Ui->setupUi(this);
+
   // Setup error string
-  errorString->setTextFormat(Qt::PlainText);
-  errorString->setTextInteractionFlags(Qt::NoTextInteraction);
-  errorString->changeStyleSheet(QtSFSDropLabel::FS_DOESNOTEXIST_STYLE);
-  errorString->setText("");
+  m_Ui->errorString->setTextFormat(Qt::PlainText);
+  m_Ui->errorString->setTextInteractionFlags(Qt::NoTextInteraction);
+  m_Ui->errorString->changeStyleSheet(QtSFSDropLabel::FS_DOESNOTEXIST_STYLE);
+  m_Ui->errorString->setText("");
 
   // Stretch Factors
-  splitter->setStretchFactor(0, 0);
-  splitter->setStretchFactor(1, 1);
+  m_Ui->splitter->setStretchFactor(0, 0);
+  m_Ui->splitter->setStretchFactor(1, 1);
 
-  generateBtn->setEnabled(false);
+  m_Ui->generateBtn->setEnabled(false);
 
   // Populate the code viewer
-  on_codeChooser_currentIndexChanged(codeChooser->currentIndex());
+  on_codeChooser_currentIndexChanged(m_Ui->codeChooser->currentIndex());
 }
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-bool FilterMaker::isPublic()
+bool FilterMaker::isPublic() const
 {
-  return publicFilter->isChecked();
+  return m_Ui->publicFilter->isChecked();
 }
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString FilterMaker::getFilterName()
+QString FilterMaker::getFilterName() const
 {
-  return (filterName->text());
+  return (m_Ui->filterName->text());
 }
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString FilterMaker::getPluginDir()
+QString FilterMaker::getPluginDir() const
 {
-  return (pluginDir->text());
+  return (m_Ui->pluginDir->text());
 }
 
 // -----------------------------------------------------------------------------
@@ -121,7 +123,7 @@ void FilterMaker::on_pluginDir_textChanged(const QString& text)
   validityCheck();
 
   // Update the code viewer
-  on_codeChooser_currentIndexChanged(codeChooser->currentIndex());
+  on_codeChooser_currentIndexChanged(m_Ui->codeChooser->currentIndex());
 }
 
 // -----------------------------------------------------------------------------
@@ -130,7 +132,7 @@ void FilterMaker::on_pluginDir_textChanged(const QString& text)
 void FilterMaker::on_filterName_textChanged(const QString& text)
 {
   // Update the code viewer
-  on_codeChooser_currentIndexChanged(codeChooser->currentIndex());
+  on_codeChooser_currentIndexChanged(m_Ui->codeChooser->currentIndex());
 }
 
 // -----------------------------------------------------------------------------
@@ -145,7 +147,7 @@ void FilterMaker::on_selectBtn_clicked()
 
   if(!pluginPath.isEmpty())
   {
-    pluginDir->setText(pluginPath);
+    m_Ui->pluginDir->setText(pluginPath);
   }
 }
 
@@ -156,7 +158,7 @@ void FilterMaker::on_codeChooser_currentIndexChanged(int index)
 {
   if(!validityCheck())
   {
-    codeViewer->clear();
+    m_Ui->codeViewer->clear();
     return;
   }
 
@@ -165,15 +167,15 @@ void FilterMaker::on_codeChooser_currentIndexChanged(int index)
 
   if (index == H_INDEX)
   {
-    codeViewer->setText(m_hGenerator->generateFileContents());
+    m_Ui->codeViewer->setText(m_hGenerator->generateFileContents());
   }
   else if (index == CPP_INDEX)
   {
-    codeViewer->setText(m_cppGenerator->generateFileContents());
+    m_Ui->codeViewer->setText(m_cppGenerator->generateFileContents());
   }
   else if (index == DOC_INDEX)
   {
-    codeViewer->setText(m_htmlGenerator->generateFileContents());
+    m_Ui->codeViewer->setText(m_htmlGenerator->generateFileContents());
   }
 }
 
@@ -182,7 +184,7 @@ void FilterMaker::on_codeChooser_currentIndexChanged(int index)
 // -----------------------------------------------------------------------------
 void FilterMaker::on_generateBtn_clicked()
 {
-  QString filterName = this->filterName->text();
+  QString filterName = m_Ui->filterName->text();
 
   // Update all filter file generators with information from table
   updateFilterFileGenerators();
@@ -219,14 +221,14 @@ void FilterMaker::on_addFilterParameterBtn_clicked()
 // -----------------------------------------------------------------------------
 void FilterMaker::on_removeFilterParameterBtn_clicked()
 {
-  int row = filterParametersTable->currentRow();
-  filterParametersTable->removeRow(row);
+  int row = m_Ui->filterParametersTable->currentRow();
+  m_Ui->filterParametersTable->removeRow(row);
 
   // Update the filter file generators with the new information
   updateFilterFileGenerators();
 
   // Show the new code in the code viewer
-  on_codeChooser_currentIndexChanged(codeChooser->currentIndex());
+  on_codeChooser_currentIndexChanged(m_Ui->codeChooser->currentIndex());
 }
 
 // -----------------------------------------------------------------------------
@@ -238,7 +240,7 @@ void FilterMaker::on_filterParametersTable_itemChanged(QTableWidgetItem* item)
   updateFilterFileGenerators();
 
   // Show the new code in the code viewer
-  on_codeChooser_currentIndexChanged(codeChooser->currentIndex());
+  on_codeChooser_currentIndexChanged(m_Ui->codeChooser->currentIndex());
 }
 
 // -----------------------------------------------------------------------------
@@ -262,8 +264,8 @@ void FilterMaker::addFilterParameterToTable(AddFilterParameter* widget)
   QTableWidgetItem* initValueItem = new QTableWidgetItem(initValue);
 
   // Insert items
-  int row = filterParametersTable->rowCount();
-  filterParametersTable->insertRow(row);
+  int row = m_Ui->filterParametersTable->rowCount();
+  m_Ui->filterParametersTable->insertRow(row);
 
   if (type == "SeparatorWidget")
   {
@@ -275,19 +277,19 @@ void FilterMaker::addFilterParameterToTable(AddFilterParameter* widget)
   typeItem->setFlags(Qt::NoItemFlags);
   categoryItem->setFlags(Qt::NoItemFlags);
 
-  filterParametersTable->blockSignals(true);
-  filterParametersTable->setItem(row, VAR_NAME, varNameItem);
-  filterParametersTable->setItem(row, HUMAN_NAME, humanNameItem);
-  filterParametersTable->setItem(row, TYPE, typeItem);
-  filterParametersTable->setItem(row, CATEGORY, categoryItem);
-  filterParametersTable->setItem(row, INIT_VALUE, initValueItem);
-  filterParametersTable->blockSignals(false);
+  m_Ui->filterParametersTable->blockSignals(true);
+  m_Ui->filterParametersTable->setItem(row, VAR_NAME, varNameItem);
+  m_Ui->filterParametersTable->setItem(row, HUMAN_NAME, humanNameItem);
+  m_Ui->filterParametersTable->setItem(row, TYPE, typeItem);
+  m_Ui->filterParametersTable->setItem(row, CATEGORY, categoryItem);
+  m_Ui->filterParametersTable->setItem(row, INIT_VALUE, initValueItem);
+  m_Ui->filterParametersTable->blockSignals(false);
 
   // Update the filter file generators with the new information
   updateFilterFileGenerators();
 
   // Show the new code in the code viewer
-  on_codeChooser_currentIndexChanged(codeChooser->currentIndex());
+  on_codeChooser_currentIndexChanged(m_Ui->codeChooser->currentIndex());
 }
 
 // -----------------------------------------------------------------------------
@@ -309,8 +311,8 @@ void FilterMaker::on_errorString_linkActivated(const QString& link)
 // -----------------------------------------------------------------------------
 void FilterMaker::updateFilterFileGenerators()
 {
-  QString filterName = this->filterName->text();
-  QString pluginDirText = this->pluginDir->text();
+  QString filterName = m_Ui->filterName->text();
+  QString pluginDirText = m_Ui->pluginDir->text();
 
   if (pluginDirText.isEmpty() || filterName.isEmpty())
   {
@@ -433,7 +435,7 @@ void FilterMaker::updateFilterFileGenerators()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-void FilterMaker::generateFilterFiles()
+void FilterMaker::generateFilterFiles() const
 {
   // Generate all the output
   m_cppGenerator->generateOutput();
@@ -445,11 +447,11 @@ void FilterMaker::generateFilterFiles()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QMap<QString, QString> FilterMaker::getFunctionContents()
+QMap<QString, QString> FilterMaker::getFunctionContents() const
 {
   QMap<QString, QString> map;
 
-  if (filterParametersTable->rowCount() <= 0)
+  if(m_Ui->filterParametersTable->rowCount() <= 0)
   {
     return map;
   }
@@ -465,13 +467,13 @@ QMap<QString, QString> FilterMaker::getFunctionContents()
   QString fpDeclarations = "";
 
   CodeGenFactory::Pointer factory = CodeGenFactory::New();
-  for (int row = 0; row < filterParametersTable->rowCount(); row++)
+  for(int row = 0; row < m_Ui->filterParametersTable->rowCount(); row++)
   {
-    QString propertyName = filterParametersTable->item(row, VAR_NAME)->text();
-    QString humanName = filterParametersTable->item(row, HUMAN_NAME)->text();
-    QString type = filterParametersTable->item(row, TYPE)->text();
-    QString category = filterParametersTable->item(row, CATEGORY)->text();
-    QString initValue = filterParametersTable->item(row, INIT_VALUE)->text();
+    QString propertyName = m_Ui->filterParametersTable->item(row, VAR_NAME)->text();
+    QString humanName = m_Ui->filterParametersTable->item(row, HUMAN_NAME)->text();
+    QString type = m_Ui->filterParametersTable->item(row, TYPE)->text();
+    QString category = m_Ui->filterParametersTable->item(row, CATEGORY)->text();
+    QString initValue = m_Ui->filterParametersTable->item(row, INIT_VALUE)->text();
 
     QSet<QString> hIncludesSet;
     QSet<QString> cppIncludesSet;
@@ -570,10 +572,10 @@ QMap<QString, QString> FilterMaker::getFunctionContents()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-void FilterMaker::updateSourceList()
+void FilterMaker::updateSourceList() const
 {
-  QString filterName = this->filterName->text();
-  QString pluginDir = this->pluginDir->text();
+  QString filterName = m_Ui->filterName->text();
+  QString pluginDir = m_Ui->pluginDir->text();
 
   QString pluginName = QFileInfo(pluginDir).baseName();
 
@@ -649,10 +651,10 @@ void FilterMaker::updateSourceList()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-void FilterMaker::updateTestLocations()
+void FilterMaker::updateTestLocations() const
 {
-  QString filterName = this->filterName->text();
-  QString pluginDir = this->pluginDir->text();
+  QString filterName = m_Ui->filterName->text();
+  QString pluginDir = m_Ui->pluginDir->text();
 
   QString testPath = pluginDir + "/Test/TestFileLocations.h.in";
   testPath = QDir::toNativeSeparators(testPath);
@@ -705,10 +707,10 @@ void FilterMaker::updateTestLocations()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-void FilterMaker::updateTestList()
+void FilterMaker::updateTestList() const
 {
-  QString filterName = this->filterName->text();
-  QString pluginDir = this->pluginDir->text();
+  QString filterName = m_Ui->filterName->text();
+  QString pluginDir = m_Ui->pluginDir->text();
 
   QString testPath = pluginDir + "/Test/CMakeLists.txt";
   testPath = QDir::toNativeSeparators(testPath);
@@ -729,9 +731,9 @@ void FilterMaker::updateTestList()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString FilterMaker::createNamespaceString()
+QString FilterMaker::createNamespaceString() const
 {
-  QString filterName = this->filterName->text();
+  QString filterName = m_Ui->filterName->text();
 
   QString addition = "\n";
   addition.append("  namespace " + filterName + "Test");
@@ -748,8 +750,8 @@ QString FilterMaker::createNamespaceString()
 // -----------------------------------------------------------------------------
 bool FilterMaker::validityCheck()
 {
-  QString filterName = this->filterName->text();
-  QString pluginDir = this->pluginDir->text();
+  QString filterName = m_Ui->filterName->text();
+  QString pluginDir = m_Ui->pluginDir->text();
 
   QString pluginPath = QDir::toNativeSeparators(pluginDir);
 
@@ -770,51 +772,51 @@ bool FilterMaker::validityCheck()
       && filtersDirInfo.exists() == true)
   {
     // No Errors
-    generateBtn->setEnabled(true);
-    errorString->setText("");
-    errorString->setTextFormat(Qt::PlainText);
-    errorString->setTextInteractionFlags(Qt::NoTextInteraction);
+    m_Ui->generateBtn->setEnabled(true);
+    m_Ui->errorString->setText("");
+    m_Ui->errorString->setTextFormat(Qt::PlainText);
+    m_Ui->errorString->setTextInteractionFlags(Qt::NoTextInteraction);
     return true;
   }
   else
   {
     // There is an error, so disable the button and hide the error message until we know what the message is going to be.
-    generateBtn->setEnabled(false);
-    errorString->setText("");
-    errorString->setTextFormat(Qt::PlainText);
-    errorString->setTextInteractionFlags(Qt::NoTextInteraction);
+    m_Ui->generateBtn->setEnabled(false);
+    m_Ui->errorString->setText("");
+    m_Ui->errorString->setTextFormat(Qt::PlainText);
+    m_Ui->errorString->setTextInteractionFlags(Qt::NoTextInteraction);
 
     if (filterName.contains(QRegExp("[^a-zA-Z_-/\\s]")) == true)
     {
       // Filter name has illegal characters
       QString linkText = "<a href=#openWindow>Learn More.</a>";
-      errorString->setText("The name that you chose has illegal characters. " + linkText);
-      errorString->setTextFormat(Qt::RichText);
-      errorString->setTextInteractionFlags(Qt::TextBrowserInteraction);
+      m_Ui->errorString->setText("The name that you chose has illegal characters. " + linkText);
+      m_Ui->errorString->setTextFormat(Qt::RichText);
+      m_Ui->errorString->setTextInteractionFlags(Qt::TextBrowserInteraction);
     }
     else if (filterName.contains(QRegExp("(Filter|Plugin)$")) == true)
     {
       // Filter name has "Filter" or "Plugin" at the end of the name
-      generateBtn->setEnabled(false);
-      errorString->setText("Filter names cannot contain the words 'Filter' or 'Plugin' at the end of the name.\nPlease choose a different filter name.");
+      m_Ui->generateBtn->setEnabled(false);
+      m_Ui->errorString->setText("Filter names cannot contain the words 'Filter' or 'Plugin' at the end of the name.\nPlease choose a different filter name.");
     }
     else if (pluginDir.isEmpty() == true)
     {
       // The directory is empty
-      generateBtn->setEnabled(false);
-      errorString->setText("The plugin directory cannot be empty.\nPlease select a valid plugin directory.");
+      m_Ui->generateBtn->setEnabled(false);
+      m_Ui->errorString->setText("The plugin directory cannot be empty.\nPlease select a valid plugin directory.");
     }
     else if (filtersDirInfo.exists() == false)
     {
       // The directory is not a specified plugin directory
-      generateBtn->setEnabled(false);
-      errorString->setText("The specified directory is not a valid plugin directory.\nPlease select a valid plugin directory.");
+      m_Ui->generateBtn->setEnabled(false);
+      m_Ui->errorString->setText("The specified directory is not a valid plugin directory.\nPlease select a valid plugin directory.");
     }
     else if (filterName.isEmpty() == true)
     {
       // The directory is empty
-      generateBtn->setEnabled(false);
-      errorString->setText("The filter name cannot be empty.\nPlease select a valid filter name.");
+      m_Ui->generateBtn->setEnabled(false);
+      m_Ui->errorString->setText("The filter name cannot be empty.\nPlease select a valid filter name.");
     }
 
     return false;
@@ -824,7 +826,7 @@ bool FilterMaker::validityCheck()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString FilterMaker::getDefaultSetupFPContents()
+QString FilterMaker::getDefaultSetupFPContents() const
 {
   QString contents = "";
 
@@ -842,7 +844,7 @@ QString FilterMaker::getDefaultSetupFPContents()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString FilterMaker::getDefaultDataCheckContents()
+QString FilterMaker::getDefaultDataCheckContents() const
 {
   QString contents = "";
 
@@ -860,7 +862,7 @@ QString FilterMaker::getDefaultDataCheckContents()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString FilterMaker::getDefaultFPContents()
+QString FilterMaker::getDefaultFPContents() const
 {
   QString contents = "";
 
@@ -878,7 +880,7 @@ QString FilterMaker::getDefaultFPContents()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString FilterMaker::getDefaultInitListContents()
+QString FilterMaker::getDefaultInitListContents() const
 {
   QString contents = "";
 
@@ -896,7 +898,7 @@ QString FilterMaker::getDefaultInitListContents()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString FilterMaker::getDefaultFilterHIncludesContents()
+QString FilterMaker::getDefaultFilterHIncludesContents() const
 {
   QString contents = "";
 
@@ -914,7 +916,7 @@ QString FilterMaker::getDefaultFilterHIncludesContents()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString FilterMaker::getDefaultFilterCPPIncludesContents()
+QString FilterMaker::getDefaultFilterCPPIncludesContents() const
 {
   QString contents = "";
 
@@ -934,4 +936,36 @@ QString FilterMaker::getDefaultFilterCPPIncludesContents()
 // -----------------------------------------------------------------------------
 void FilterMaker::generationError(const QString& test)
 {
+}
+
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
+void FilterMaker::setFilterName(const QString& value)
+{
+  m_Ui->filterName->setText(value);
+}
+
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
+void FilterMaker::setPluginDir(const QString& value)
+{
+  m_Ui->pluginDir->setText(value);
+}
+
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
+int FilterMaker::getFilterParametersRowCount() const
+{
+  return m_Ui->filterParametersTable->rowCount();
+}
+
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
+QString FilterMaker::getData(int row, FPColumnIndex column) const
+{
+  return m_Ui->filterParametersTable->item(row, column)->text();
 }

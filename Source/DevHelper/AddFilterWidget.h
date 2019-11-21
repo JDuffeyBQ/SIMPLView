@@ -33,20 +33,27 @@
 *
 * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
-
 #pragma once
 
-#include "ui_AddFilterWidget.h"
+#include <QtWidgets/QDialog>
 
-class AddFilterWidget : public QDialog, public Ui::Dialog
+namespace Ui
+{
+class Dialog;
+}
+
+class AddFilterWidget : public QDialog
 {
     Q_OBJECT
 
   public:
     AddFilterWidget(QWidget* parent = nullptr);
-    QString getFilterName();
-    bool isPublic();
-    bool getBtnClicked();
+
+    ~AddFilterWidget() override;
+
+    QString getFilterName() const;
+    bool isPublic() const;
+    bool getBtnClicked() const;
 
   protected slots:
     void on_addfilterOKButton_clicked();
@@ -54,7 +61,7 @@ class AddFilterWidget : public QDialog, public Ui::Dialog
     void on_filterName_textChanged(const QString& text);
 
   private:
-    bool BtnClicked;
-    QString cleanName(QString name);
+    QSharedPointer<Ui::Dialog> m_Ui = nullptr;
+    bool BtnClicked = false;
 };
 

@@ -33,24 +33,35 @@
 *
 * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
-
 #pragma once
 
 #include <QtCore/QString>
 #include <QtCore/QVector>
 #include <QtWidgets/QTreeWidgetItem>
 
-#include "ui_PluginMaker.h"
 #include "FilterBundler.h"
 
-class PluginMaker : public QWidget, public Ui::PluginMaker
+namespace Ui
+{
+class PluginMaker;
+}
+
+class PluginMaker : public QWidget
 {
     Q_OBJECT
 
   public:
     PluginMaker(QWidget* parent = nullptr);
 
+    ~PluginMaker() override;
+
     bool validityCheck();
+
+    QString getPluginName() const;
+    void setPluginName(const QString& value);
+
+    QString getOutputDir() const;
+    void setOutputDir(const QString& value);
 
   protected:
     void setupGui();
@@ -75,11 +86,11 @@ class PluginMaker : public QWidget, public Ui::PluginMaker
     void updateStatusBar(QString message);
 
   private:
+    QSharedPointer<Ui::PluginMaker> m_Ui = nullptr;
+
     QString m_OpenDialogLastDirectory;
-    QString cleanName(QString name);
-    QString cleanName_filters(QString name);
     qint32 checkDirtyDocument();
-    QString generateCmakeContents();
+    QString generateCmakeContents() const;
 // QString generateQrcContents();
 
     QVector<FilterBundler> m_FilterBundles;

@@ -35,15 +35,18 @@
 
 #pragma once
 
-
+#include <QtWidgets/QTableWidget>
 #include <QtWidgets/QWidget>
 
 #include "DevHelper/AddFilterParameter.h"
 #include "DevHelper/PMFileGenerator.h"
 
-#include "ui_FilterMaker.h"
+namespace Ui
+{
+class FilterMaker;
+}
 
-class FilterMaker : public QWidget, public Ui::FilterMaker
+class FilterMaker : public QWidget
 {
     Q_OBJECT
 
@@ -71,9 +74,17 @@ class FilterMaker : public QWidget, public Ui::FilterMaker
 
     bool validityCheck();
 
-    QString getFilterName();
-    QString getPluginDir();
-    bool isPublic();
+    void setFilterName(const QString& value);
+    QString getFilterName() const;
+
+    void setPluginDir(const QString& value);
+    QString getPluginDir() const;
+
+    int getFilterParametersRowCount() const;
+
+    QString getData(int row, FPColumnIndex column) const;
+
+    bool isPublic() const;
 
   public slots:
     void addFilterParameterToTable(AddFilterParameter* widget);
@@ -81,13 +92,12 @@ class FilterMaker : public QWidget, public Ui::FilterMaker
   protected:
     void setupGui();
 
-    QString getDefaultSetupFPContents();
-    QString getDefaultWriteFPContents();
-    QString getDefaultDataCheckContents();
-    QString getDefaultFPContents();
-    QString getDefaultInitListContents();
-    QString getDefaultFilterHIncludesContents();
-    QString getDefaultFilterCPPIncludesContents();
+    QString getDefaultSetupFPContents() const;
+    QString getDefaultDataCheckContents() const;
+    QString getDefaultFPContents() const;
+    QString getDefaultInitListContents() const;
+    QString getDefaultFilterHIncludesContents() const;
+    QString getDefaultFilterCPPIncludesContents() const;
 
   protected slots:
     void on_selectBtn_clicked();
@@ -106,6 +116,7 @@ class FilterMaker : public QWidget, public Ui::FilterMaker
     void updateStatusBar(QString message);
 
   private:
+    QSharedPointer<Ui::FilterMaker> m_Ui = nullptr;
     QString                                     m_OpenDialogLastDirectory;
     QSharedPointer<PMFileGenerator>             m_cppGenerator;
     QSharedPointer<PMFileGenerator>             m_hGenerator;
@@ -113,13 +124,13 @@ class FilterMaker : public QWidget, public Ui::FilterMaker
     QSharedPointer<PMFileGenerator>             m_testGenerator;
 
     void updateFilterFileGenerators();
-    void generateFilterFiles();
-    void updateSourceList();
-    void updateTestLocations();
-    void updateTestList();
-    QString createNamespaceString();
+    void generateFilterFiles() const;
+    void updateSourceList() const;
+    void updateTestLocations() const;
+    void updateTestList() const;
+    QString createNamespaceString() const;
 
-    QMap<QString, QString> getFunctionContents();
+    QMap<QString, QString> getFunctionContents() const;
 
   public:
     FilterMaker(const FilterMaker&) = delete;            // Copy Constructor Not Implemented

@@ -32,14 +32,18 @@
 *    United States Prime Contract Navy N00173-07-C-2068
 *
 * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
 #include "FilterBundler.h"
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-FilterBundler::FilterBundler()
-{
-}
+FilterBundler::FilterBundler() = default;
+
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
+FilterBundler::~FilterBundler() = default;
 
 // -----------------------------------------------------------------------------
 //
@@ -58,7 +62,31 @@ FilterBundler::FilterBundler(PMFileGenerator* cppfile, PMFileGenerator* hfile,
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-PMFileGenerator* FilterBundler::getCPPGenerator()
+FilterBundler::FilterBundler(const FilterBundler& rhs)
+{
+  cppfile = rhs.cppfile;
+  hfile = rhs.hfile;
+  htmlfile = rhs.htmlfile;
+  publicFilter = rhs.publicFilter;
+  testfile = rhs.testfile;
+}
+
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
+void FilterBundler::operator=(const FilterBundler& rhs)
+{
+  cppfile = rhs.cppfile;
+  hfile = rhs.hfile;
+  htmlfile = rhs.htmlfile;
+  publicFilter = rhs.publicFilter;
+  testfile = rhs.testfile;
+}
+
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
+PMFileGenerator* FilterBundler::getCPPGenerator() const
 {
   return cppfile;
 }
@@ -66,7 +94,7 @@ PMFileGenerator* FilterBundler::getCPPGenerator()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-PMFileGenerator* FilterBundler::getHGenerator()
+PMFileGenerator* FilterBundler::getHGenerator() const
 {
   return hfile;
 }
@@ -74,7 +102,7 @@ PMFileGenerator* FilterBundler::getHGenerator()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-PMFileGenerator* FilterBundler::getHTMLGenerator()
+PMFileGenerator* FilterBundler::getHTMLGenerator() const
 {
   return htmlfile;
 }
@@ -82,7 +110,7 @@ PMFileGenerator* FilterBundler::getHTMLGenerator()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-PMFileGenerator* FilterBundler::getTestGenerator()
+PMFileGenerator* FilterBundler::getTestGenerator() const
 {
   return testfile;
 }
@@ -90,7 +118,7 @@ PMFileGenerator* FilterBundler::getTestGenerator()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-bool FilterBundler::isPublic()
+bool FilterBundler::isPublic() const
 {
   return this->publicFilter;
 }
@@ -98,7 +126,7 @@ bool FilterBundler::isPublic()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-bool FilterBundler::containsTreeWidgetItem(QTreeWidgetItem* item)
+bool FilterBundler::containsTreeWidgetItem(QTreeWidgetItem* item) const
 {
   if ( item == cppfile->getTreeWidgetItem() ||
        item == hfile->getTreeWidgetItem() ||
