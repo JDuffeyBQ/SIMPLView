@@ -40,7 +40,7 @@
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-OutputFileWidgetCodeGenerator::OutputFileWidgetCodeGenerator(QString humanLabel, QString propertyName, QString category, QString initValue)
+OutputFileWidgetCodeGenerator::OutputFileWidgetCodeGenerator(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
 : FPCodeGenerator(humanLabel, propertyName, category, initValue, "QString")
 {
 }
@@ -48,13 +48,12 @@ OutputFileWidgetCodeGenerator::OutputFileWidgetCodeGenerator(QString humanLabel,
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-OutputFileWidgetCodeGenerator::~OutputFileWidgetCodeGenerator()
-{}
+OutputFileWidgetCodeGenerator::~OutputFileWidgetCodeGenerator() = default;
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString OutputFileWidgetCodeGenerator::generateSetupFilterParameters()
+QString OutputFileWidgetCodeGenerator::generateSetupFilterParameters() const
 {
   QString s;
   QTextStream out(&s);
@@ -65,7 +64,7 @@ QString OutputFileWidgetCodeGenerator::generateSetupFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString OutputFileWidgetCodeGenerator::generateDataCheck()
+QString OutputFileWidgetCodeGenerator::generateDataCheck() const
 {
   return "";
 }
@@ -73,7 +72,7 @@ QString OutputFileWidgetCodeGenerator::generateDataCheck()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString OutputFileWidgetCodeGenerator::generateFilterParameters()
+QString OutputFileWidgetCodeGenerator::generateFilterParameters() const
 {
   QString contents;
   QTextStream ss(&contents);
@@ -86,7 +85,7 @@ QString OutputFileWidgetCodeGenerator::generateFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QList<QString> OutputFileWidgetCodeGenerator::generateCPPIncludes()
+QList<QString> OutputFileWidgetCodeGenerator::generateCPPIncludes() const
 {
   QList<QString> list;
   list.push_back("#include \"SIMPLib/FilterParameters/OutputFileFilterParameter.h\"");
@@ -97,4 +96,11 @@ QList<QString> OutputFileWidgetCodeGenerator::generateCPPIncludes()
 OutputFileWidgetCodeGenerator::Pointer OutputFileWidgetCodeGenerator::NullPointer()
 {
   return Pointer(static_cast<Self*>(nullptr));
+}
+
+// -----------------------------------------------------------------------------
+OutputFileWidgetCodeGenerator::Pointer OutputFileWidgetCodeGenerator::New(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
+{
+  Pointer sharedPtr(new Self(humanLabel, propertyName, category, initValue));
+  return sharedPtr;
 }

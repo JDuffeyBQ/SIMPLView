@@ -46,7 +46,7 @@ public:
   using Pointer = std::shared_ptr<Self>;
   using ConstPointer = std::shared_ptr<const Self>;
   using WeakPointer = std::weak_ptr<Self>;
-  using ConstWeakPointer = std::weak_ptr<Self>;
+  using ConstWeakPointer = std::weak_ptr<const Self>;
   static Pointer NullPointer();
 
   /**
@@ -66,21 +66,17 @@ public:
    * @param initValue
    * @return
    */
-  static Pointer New(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
-  {
-    Pointer sharedPtr(new LinkedPathCreationWidgetCodeGenerator(humanLabel, propertyName, category, initValue));
-    return sharedPtr;
-  }
+  static Pointer New(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue);
 
   ~LinkedPathCreationWidgetCodeGenerator() override;
 
-  QString generateSetupFilterParameters() override;
+  QString generateSetupFilterParameters() const override;
 
-  QString generateDataCheck() override;
+  QString generateDataCheck() const override;
 
-  QString generateFilterParameters() override;
+  QString generateFilterParameters() const override;
 
-  QList<QString> generateCPPIncludes() override;
+  QList<QString> generateCPPIncludes() const override;
 
 public:
   LinkedPathCreationWidgetCodeGenerator(const LinkedPathCreationWidgetCodeGenerator&) = delete;            // Copy Constructor Not Implemented

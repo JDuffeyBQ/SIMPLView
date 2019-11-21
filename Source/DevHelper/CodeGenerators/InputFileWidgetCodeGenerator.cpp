@@ -40,7 +40,7 @@
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-InputFileWidgetCodeGenerator::InputFileWidgetCodeGenerator(QString humanLabel, QString propertyName, QString category, QString initValue)
+InputFileWidgetCodeGenerator::InputFileWidgetCodeGenerator(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
 : FPCodeGenerator(humanLabel, propertyName, category, initValue, "QString")
 {
 }
@@ -48,13 +48,12 @@ InputFileWidgetCodeGenerator::InputFileWidgetCodeGenerator(QString humanLabel, Q
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-InputFileWidgetCodeGenerator::~InputFileWidgetCodeGenerator()
-{}
+InputFileWidgetCodeGenerator::~InputFileWidgetCodeGenerator() = default;
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString InputFileWidgetCodeGenerator::generateSetupFilterParameters()
+QString InputFileWidgetCodeGenerator::generateSetupFilterParameters() const
 {
   QString s;
   QTextStream out(&s);
@@ -65,7 +64,7 @@ QString InputFileWidgetCodeGenerator::generateSetupFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString InputFileWidgetCodeGenerator::generateDataCheck()
+QString InputFileWidgetCodeGenerator::generateDataCheck() const
 {
   return "";
 }
@@ -73,7 +72,7 @@ QString InputFileWidgetCodeGenerator::generateDataCheck()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString InputFileWidgetCodeGenerator::generateFilterParameters()
+QString InputFileWidgetCodeGenerator::generateFilterParameters() const
 {
   QString contents;
   QTextStream ss(&contents);
@@ -86,7 +85,7 @@ QString InputFileWidgetCodeGenerator::generateFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QList<QString> InputFileWidgetCodeGenerator::generateCPPIncludes()
+QList<QString> InputFileWidgetCodeGenerator::generateCPPIncludes() const
 {
   QList<QString> list;
   list.push_back("#include \"SIMPLib/FilterParameters/InputFileFilterParameter.h\"");
@@ -97,4 +96,11 @@ QList<QString> InputFileWidgetCodeGenerator::generateCPPIncludes()
 InputFileWidgetCodeGenerator::Pointer InputFileWidgetCodeGenerator::NullPointer()
 {
   return Pointer(static_cast<Self*>(nullptr));
+}
+
+// -----------------------------------------------------------------------------
+InputFileWidgetCodeGenerator::Pointer InputFileWidgetCodeGenerator::New(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
+{
+  Pointer sharedPtr(new Self(humanLabel, propertyName, category, initValue));
+  return sharedPtr;
 }

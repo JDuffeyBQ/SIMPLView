@@ -40,7 +40,7 @@
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-NumericTypeWidgetCodeGenerator::NumericTypeWidgetCodeGenerator(QString humanLabel, QString propertyName, QString category, QString initValue)
+NumericTypeWidgetCodeGenerator::NumericTypeWidgetCodeGenerator(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
 : FPCodeGenerator(humanLabel, propertyName, category, initValue, "SIMPL::NumericTypes::Type", true)
 {
 }
@@ -48,13 +48,12 @@ NumericTypeWidgetCodeGenerator::NumericTypeWidgetCodeGenerator(QString humanLabe
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-NumericTypeWidgetCodeGenerator::~NumericTypeWidgetCodeGenerator()
-{}
+NumericTypeWidgetCodeGenerator::~NumericTypeWidgetCodeGenerator() = default;
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString NumericTypeWidgetCodeGenerator::generateSetupFilterParameters()
+QString NumericTypeWidgetCodeGenerator::generateSetupFilterParameters() const
 {
   QString s;
   QTextStream out(&s);
@@ -65,7 +64,7 @@ QString NumericTypeWidgetCodeGenerator::generateSetupFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString NumericTypeWidgetCodeGenerator::generateDataCheck()
+QString NumericTypeWidgetCodeGenerator::generateDataCheck() const
 {
   return "";
 }
@@ -73,7 +72,7 @@ QString NumericTypeWidgetCodeGenerator::generateDataCheck()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString NumericTypeWidgetCodeGenerator::generateFilterParameters()
+QString NumericTypeWidgetCodeGenerator::generateFilterParameters() const
 {
   QString contents;
   QTextStream ss(&contents);
@@ -86,7 +85,7 @@ QString NumericTypeWidgetCodeGenerator::generateFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QList<QString> NumericTypeWidgetCodeGenerator::generateCPPIncludes()
+QList<QString> NumericTypeWidgetCodeGenerator::generateCPPIncludes() const
 {
   QList<QString> list;
   list.push_back("#include \"SIMPLib/FilterParameters/NumericTypeFilterParameter.h\"");
@@ -97,4 +96,11 @@ QList<QString> NumericTypeWidgetCodeGenerator::generateCPPIncludes()
 NumericTypeWidgetCodeGenerator::Pointer NumericTypeWidgetCodeGenerator::NullPointer()
 {
   return Pointer(static_cast<Self*>(nullptr));
+}
+
+// -----------------------------------------------------------------------------
+NumericTypeWidgetCodeGenerator::Pointer NumericTypeWidgetCodeGenerator::New(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
+{
+  Pointer sharedPtr(new Self(humanLabel, propertyName, category, initValue));
+  return sharedPtr;
 }

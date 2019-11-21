@@ -81,7 +81,7 @@ FPCodeGenerator::~FPCodeGenerator() = default;
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString FPCodeGenerator::getPropertyName()
+QString FPCodeGenerator::getPropertyName() const
 {
   return m_PropertyName;
 }
@@ -89,7 +89,7 @@ QString FPCodeGenerator::getPropertyName()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString FPCodeGenerator::getHumanLabel()
+QString FPCodeGenerator::getHumanLabel() const
 {
   return m_HumanLabel;
 }
@@ -97,7 +97,7 @@ QString FPCodeGenerator::getHumanLabel()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString FPCodeGenerator::getCategory()
+QString FPCodeGenerator::getCategory() const
 {
   return m_Category;
 }
@@ -105,13 +105,13 @@ QString FPCodeGenerator::getCategory()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString FPCodeGenerator::getInitValue()
+QString FPCodeGenerator::getInitValue() const
 {
   return m_InitValue;
 }
 
 // -----------------------------------------------------------------------------
-QString FPCodeGenerator::getVariableType()
+QString FPCodeGenerator::getVariableType() const
 {
   return m_VariableType;
 }
@@ -119,7 +119,7 @@ QString FPCodeGenerator::getVariableType()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString FPCodeGenerator::generateSetupFilterParameters()
+QString FPCodeGenerator::generateSetupFilterParameters() const
 {
   return "";
 }
@@ -127,7 +127,7 @@ QString FPCodeGenerator::generateSetupFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString FPCodeGenerator::generateDataCheck()
+QString FPCodeGenerator::generateDataCheck() const
 {
   return "";
 }
@@ -135,7 +135,7 @@ QString FPCodeGenerator::generateDataCheck()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString FPCodeGenerator::generateFilterAccessorDeclarations()
+QString FPCodeGenerator::generateFilterAccessorDeclarations() const
 {
   QString contents;
   QTextStream ss(&contents);
@@ -158,7 +158,7 @@ QString FPCodeGenerator::generateFilterAccessorDeclarations()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString FPCodeGenerator::generatePybindContents()
+QString FPCodeGenerator::generatePybindContents() const
 {
   // return "";
   return QString("    PYB11_PROPERTY(" + getVariableType() + " " + getPropertyName() + " READ get" + getPropertyName() + " WRITE set" + getPropertyName() + ")\n");
@@ -167,7 +167,7 @@ QString FPCodeGenerator::generatePybindContents()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString FPCodeGenerator::generateInitializationList()
+QString FPCodeGenerator::generateInitializationList() const
 {
   QString contents;
   if(!getInitValue().isEmpty())
@@ -182,7 +182,7 @@ QString FPCodeGenerator::generateInitializationList()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QList<QString> FPCodeGenerator::generateHIncludes()
+QList<QString> FPCodeGenerator::generateHIncludes() const
 {
   return QList<QString>();
 }
@@ -190,13 +190,13 @@ QList<QString> FPCodeGenerator::generateHIncludes()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QList<QString> FPCodeGenerator::generateCPPIncludes()
+QList<QString> FPCodeGenerator::generateCPPIncludes() const
 {
   return QList<QString>();
 }
 
 // -----------------------------------------------------------------------------
-QString FPCodeGenerator::generateFilterParameterDeclarations()
+QString FPCodeGenerator::generateFilterParameterDeclarations() const
 {
   QString data;
   QTextStream out(&data);
@@ -205,7 +205,7 @@ QString FPCodeGenerator::generateFilterParameterDeclarations()
 }
 
 // -----------------------------------------------------------------------------
-QString FPCodeGenerator::generateFilterParameterDefinitions()
+QString FPCodeGenerator::generateFilterParameterDefinitions() const
 {
   QString data;
   QTextStream out(&data);
@@ -234,7 +234,7 @@ FPCodeGenerator::Pointer FPCodeGenerator::NullPointer()
   return Pointer(static_cast<Self*>(nullptr));
 }
 
-QString FPCodeGenerator::generateFilterParameters()
+QString FPCodeGenerator::generateFilterParameters() const
 {
   return {""};
 }

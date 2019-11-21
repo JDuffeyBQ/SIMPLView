@@ -40,7 +40,7 @@
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-DynamicChoiceWidgetCodeGenerator::DynamicChoiceWidgetCodeGenerator(QString humanLabel, QString propertyName, QString category, QString initValue)
+DynamicChoiceWidgetCodeGenerator::DynamicChoiceWidgetCodeGenerator(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
 : FPCodeGenerator(humanLabel, propertyName, category, initValue, "int32_t", true)
 {
 }
@@ -48,13 +48,12 @@ DynamicChoiceWidgetCodeGenerator::DynamicChoiceWidgetCodeGenerator(QString human
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-DynamicChoiceWidgetCodeGenerator::~DynamicChoiceWidgetCodeGenerator()
-{}
+DynamicChoiceWidgetCodeGenerator::~DynamicChoiceWidgetCodeGenerator() = default;
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString DynamicChoiceWidgetCodeGenerator::generateSetupFilterParameters()
+QString DynamicChoiceWidgetCodeGenerator::generateSetupFilterParameters() const
 {
   QString s;
   QTextStream out(&s);
@@ -66,7 +65,7 @@ QString DynamicChoiceWidgetCodeGenerator::generateSetupFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString DynamicChoiceWidgetCodeGenerator::generateDataCheck()
+QString DynamicChoiceWidgetCodeGenerator::generateDataCheck() const
 {
   return "";
 }
@@ -74,7 +73,7 @@ QString DynamicChoiceWidgetCodeGenerator::generateDataCheck()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString DynamicChoiceWidgetCodeGenerator::generateFilterParameters()
+QString DynamicChoiceWidgetCodeGenerator::generateFilterParameters() const
 {
   QString contents;
   QTextStream ss(&contents);
@@ -87,7 +86,7 @@ QString DynamicChoiceWidgetCodeGenerator::generateFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QList<QString> DynamicChoiceWidgetCodeGenerator::generateCPPIncludes()
+QList<QString> DynamicChoiceWidgetCodeGenerator::generateCPPIncludes() const
 {
   QList<QString> list;
   list.push_back("#include \"SIMPLib/FilterParameters/DynamicChoiceFilterParameter.h\"");
@@ -98,4 +97,11 @@ QList<QString> DynamicChoiceWidgetCodeGenerator::generateCPPIncludes()
 DynamicChoiceWidgetCodeGenerator::Pointer DynamicChoiceWidgetCodeGenerator::NullPointer()
 {
   return Pointer(static_cast<Self*>(nullptr));
+}
+
+// -----------------------------------------------------------------------------
+DynamicChoiceWidgetCodeGenerator::Pointer DynamicChoiceWidgetCodeGenerator::New(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
+{
+  Pointer sharedPtr(new Self(humanLabel, propertyName, category, initValue));
+  return sharedPtr;
 }

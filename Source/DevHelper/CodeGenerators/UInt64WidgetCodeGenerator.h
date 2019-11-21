@@ -46,22 +46,22 @@ public:
   using Pointer = std::shared_ptr<Self>;
   using ConstPointer = std::shared_ptr<const Self>;
   using WeakPointer = std::weak_ptr<Self>;
-  using ConstWeakPointer = std::weak_ptr<Self>;
+  using ConstWeakPointer = std::weak_ptr<const Self>;
   static Pointer NullPointer();
 
   static Pointer New(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue);
 
   ~UInt64WidgetCodeGenerator() override;
 
-  QString generateSetupFilterParameters() override;
+  QString generateSetupFilterParameters() const override;
 
-  QString generateDataCheck() override;
+  QString generateDataCheck() const override;
 
-  QString generateFilterParameters() override;
+  QString generateFilterParameters() const override;
 
   //  QString generatePybindContents() override;
 
-  QList<QString> generateCPPIncludes() override;
+  QList<QString> generateCPPIncludes() const override;
 
 protected:
   UInt64WidgetCodeGenerator(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue);

@@ -40,7 +40,7 @@
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-FloatWidgetCodeGenerator::FloatWidgetCodeGenerator(QString humanLabel, QString propertyName, QString category, QString initValue)
+FloatWidgetCodeGenerator::FloatWidgetCodeGenerator(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
 : FPCodeGenerator(humanLabel, propertyName, category, initValue, "float", true)
 {
 }
@@ -48,13 +48,12 @@ FloatWidgetCodeGenerator::FloatWidgetCodeGenerator(QString humanLabel, QString p
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-FloatWidgetCodeGenerator::~FloatWidgetCodeGenerator()
-{}
+FloatWidgetCodeGenerator::~FloatWidgetCodeGenerator() = default;
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString FloatWidgetCodeGenerator::generateSetupFilterParameters()
+QString FloatWidgetCodeGenerator::generateSetupFilterParameters() const
 {
   QString s;
   QTextStream out(&s);
@@ -65,7 +64,7 @@ QString FloatWidgetCodeGenerator::generateSetupFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString FloatWidgetCodeGenerator::generateDataCheck()
+QString FloatWidgetCodeGenerator::generateDataCheck() const
 {
   return "";
 }
@@ -73,7 +72,7 @@ QString FloatWidgetCodeGenerator::generateDataCheck()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString FloatWidgetCodeGenerator::generateFilterParameters()
+QString FloatWidgetCodeGenerator::generateFilterParameters() const
 {
   QString contents;
   QTextStream ss(&contents);
@@ -86,7 +85,7 @@ QString FloatWidgetCodeGenerator::generateFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QList<QString> FloatWidgetCodeGenerator::generateCPPIncludes()
+QList<QString> FloatWidgetCodeGenerator::generateCPPIncludes() const
 {
   QList<QString> list;
   list.push_back("#include \"SIMPLib/FilterParameters/FloatFilterParameter.h\"");
@@ -97,4 +96,11 @@ QList<QString> FloatWidgetCodeGenerator::generateCPPIncludes()
 FloatWidgetCodeGenerator::Pointer FloatWidgetCodeGenerator::NullPointer()
 {
   return Pointer(static_cast<Self*>(nullptr));
+}
+
+// -----------------------------------------------------------------------------
+FloatWidgetCodeGenerator::Pointer FloatWidgetCodeGenerator::New(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
+{
+  Pointer sharedPtr(new Self(humanLabel, propertyName, category, initValue));
+  return sharedPtr;
 }

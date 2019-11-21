@@ -39,7 +39,7 @@
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-ComparisonSelectionWidgetCodeGenerator::ComparisonSelectionWidgetCodeGenerator(QString humanLabel, QString propertyName, QString category, QString initValue)
+ComparisonSelectionWidgetCodeGenerator::ComparisonSelectionWidgetCodeGenerator(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
 : FPCodeGenerator(humanLabel, propertyName, category, initValue, "ComparisonInputs")
 {
 }
@@ -47,13 +47,12 @@ ComparisonSelectionWidgetCodeGenerator::ComparisonSelectionWidgetCodeGenerator(Q
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-ComparisonSelectionWidgetCodeGenerator::~ComparisonSelectionWidgetCodeGenerator()
-{}
+ComparisonSelectionWidgetCodeGenerator::~ComparisonSelectionWidgetCodeGenerator() = default;
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString ComparisonSelectionWidgetCodeGenerator::generateSetupFilterParameters()
+QString ComparisonSelectionWidgetCodeGenerator::generateSetupFilterParameters() const
 { 
   QString s;
   QTextStream out(&s);
@@ -65,7 +64,7 @@ QString ComparisonSelectionWidgetCodeGenerator::generateSetupFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString ComparisonSelectionWidgetCodeGenerator::generateDataCheck()
+QString ComparisonSelectionWidgetCodeGenerator::generateDataCheck() const
 {
   return "";
 }
@@ -73,7 +72,7 @@ QString ComparisonSelectionWidgetCodeGenerator::generateDataCheck()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString ComparisonSelectionWidgetCodeGenerator::generateFilterParameters()
+QString ComparisonSelectionWidgetCodeGenerator::generateFilterParameters() const
 {
   QString contents;
   QTextStream ss(&contents);
@@ -86,7 +85,7 @@ QString ComparisonSelectionWidgetCodeGenerator::generateFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QList<QString> ComparisonSelectionWidgetCodeGenerator::generateHIncludes()
+QList<QString> ComparisonSelectionWidgetCodeGenerator::generateHIncludes() const
 {
   QList<QString> list;
   list.push_back("#include \"SIMPLib/Common/ComparisonInputs.h\"");
@@ -96,7 +95,7 @@ QList<QString> ComparisonSelectionWidgetCodeGenerator::generateHIncludes()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QList<QString> ComparisonSelectionWidgetCodeGenerator::generateCPPIncludes()
+QList<QString> ComparisonSelectionWidgetCodeGenerator::generateCPPIncludes() const
 {
   QList<QString> list;
   list.push_back("#include \"SIMPLib/FilterParameters/ComparisonSelectionFilterParameter.h\"");
@@ -107,4 +106,11 @@ QList<QString> ComparisonSelectionWidgetCodeGenerator::generateCPPIncludes()
 ComparisonSelectionWidgetCodeGenerator::Pointer ComparisonSelectionWidgetCodeGenerator::NullPointer()
 {
   return Pointer(static_cast<Self*>(nullptr));
+}
+
+// -----------------------------------------------------------------------------
+ComparisonSelectionWidgetCodeGenerator::Pointer ComparisonSelectionWidgetCodeGenerator::New(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
+{
+  Pointer sharedPtr(new Self(humanLabel, propertyName, category, initValue));
+  return sharedPtr;
 }

@@ -48,29 +48,25 @@ class ComparisonSelectionAdvancedWidgetCodeGenerator : public FPCodeGenerator
     using Pointer = std::shared_ptr<Self>;
     using ConstPointer = std::shared_ptr<const Self>;
     using WeakPointer = std::weak_ptr<Self>;
-    using ConstWeakPointer = std::weak_ptr<Self>;
+    using ConstWeakPointer = std::weak_ptr<const Self>;
     static Pointer NullPointer();
 
-    static Pointer New(QString humanLabel, QString propertyName, QString category, QString initValue)
-    {
-      Pointer sharedPtr(new ComparisonSelectionAdvancedWidgetCodeGenerator(humanLabel, propertyName, category, initValue));
-      return sharedPtr;
-    }
+    static Pointer New(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue);
 
-    virtual ~ComparisonSelectionAdvancedWidgetCodeGenerator();
+    ~ComparisonSelectionAdvancedWidgetCodeGenerator() override;
 
-    QString generateSetupFilterParameters() override;
+    QString generateSetupFilterParameters() const override;
 
-    QString generateDataCheck() override;
+    QString generateDataCheck() const override;
 
-    QString generateFilterParameters() override;
+    QString generateFilterParameters() const override;
 
-    virtual QList<QString> generateHIncludes();
+    QList<QString> generateHIncludes() const override;
 
-    QList<QString> generateCPPIncludes() override;
+    QList<QString> generateCPPIncludes() const override;
 
   protected:
-    ComparisonSelectionAdvancedWidgetCodeGenerator(QString humanLabel, QString propertyName, QString category, QString initValue);
+    ComparisonSelectionAdvancedWidgetCodeGenerator(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue);
 
   public:
     ComparisonSelectionAdvancedWidgetCodeGenerator(const ComparisonSelectionAdvancedWidgetCodeGenerator&) = delete; // Copy Constructor Not Implemented

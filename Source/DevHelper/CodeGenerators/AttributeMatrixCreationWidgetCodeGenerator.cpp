@@ -39,7 +39,7 @@
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-AttributeMatrixCreationWidgetCodeGenerator::AttributeMatrixCreationWidgetCodeGenerator(QString humanLabel, QString propertyName, QString category, QString initValue)
+AttributeMatrixCreationWidgetCodeGenerator::AttributeMatrixCreationWidgetCodeGenerator(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
 : FPCodeGenerator(humanLabel, propertyName, category, initValue, "DataArrayPath")
 {
 }
@@ -52,7 +52,7 @@ AttributeMatrixCreationWidgetCodeGenerator::~AttributeMatrixCreationWidgetCodeGe
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString AttributeMatrixCreationWidgetCodeGenerator::generateSetupFilterParameters()
+QString AttributeMatrixCreationWidgetCodeGenerator::generateSetupFilterParameters() const
 {
   QString s;
   QTextStream out(&s);
@@ -64,7 +64,7 @@ QString AttributeMatrixCreationWidgetCodeGenerator::generateSetupFilterParameter
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString AttributeMatrixCreationWidgetCodeGenerator::generateDataCheck()
+QString AttributeMatrixCreationWidgetCodeGenerator::generateDataCheck() const
 {
   return "";
 }
@@ -72,7 +72,7 @@ QString AttributeMatrixCreationWidgetCodeGenerator::generateDataCheck()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QList<QString> AttributeMatrixCreationWidgetCodeGenerator::generateCPPIncludes()
+QList<QString> AttributeMatrixCreationWidgetCodeGenerator::generateCPPIncludes() const
 {
   QList<QString> list;
   list.push_back("#include \"SIMPLib/FilterParameters/AttributeMatrixCreationFilterParameter.h\"");
@@ -83,4 +83,11 @@ QList<QString> AttributeMatrixCreationWidgetCodeGenerator::generateCPPIncludes()
 AttributeMatrixCreationWidgetCodeGenerator::Pointer AttributeMatrixCreationWidgetCodeGenerator::NullPointer()
 {
   return Pointer(static_cast<Self*>(nullptr));
+}
+
+// -----------------------------------------------------------------------------
+AttributeMatrixCreationWidgetCodeGenerator::Pointer AttributeMatrixCreationWidgetCodeGenerator::New(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
+{
+  Pointer sharedPtr(new Self(humanLabel, propertyName, category, initValue));
+  return sharedPtr;
 }

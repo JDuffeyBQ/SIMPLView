@@ -39,7 +39,7 @@
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-ConstrainedIntWidgetCodeGenerator::ConstrainedIntWidgetCodeGenerator(QString humanLabel, QString propertyName, QString category, QString initValue)
+ConstrainedIntWidgetCodeGenerator::ConstrainedIntWidgetCodeGenerator(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
 : FPCodeGenerator(humanLabel, propertyName, category, initValue, "int32_t", true)
 {
 }
@@ -47,13 +47,12 @@ ConstrainedIntWidgetCodeGenerator::ConstrainedIntWidgetCodeGenerator(QString hum
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-ConstrainedIntWidgetCodeGenerator::~ConstrainedIntWidgetCodeGenerator()
-{}
+ConstrainedIntWidgetCodeGenerator::~ConstrainedIntWidgetCodeGenerator() = default;
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString ConstrainedIntWidgetCodeGenerator::generateSetupFilterParameters()
+QString ConstrainedIntWidgetCodeGenerator::generateSetupFilterParameters() const
 {
   QString s;
   QTextStream out(&s);
@@ -64,7 +63,7 @@ QString ConstrainedIntWidgetCodeGenerator::generateSetupFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString ConstrainedIntWidgetCodeGenerator::generateDataCheck()
+QString ConstrainedIntWidgetCodeGenerator::generateDataCheck() const
 {
   return "";
 }
@@ -72,7 +71,7 @@ QString ConstrainedIntWidgetCodeGenerator::generateDataCheck()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString ConstrainedIntWidgetCodeGenerator::generateFilterParameters()
+QString ConstrainedIntWidgetCodeGenerator::generateFilterParameters() const
 {
   QString contents;
   QTextStream ss(&contents);
@@ -85,7 +84,7 @@ QString ConstrainedIntWidgetCodeGenerator::generateFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QList<QString> ConstrainedIntWidgetCodeGenerator::generateCPPIncludes()
+QList<QString> ConstrainedIntWidgetCodeGenerator::generateCPPIncludes() const
 {
   QList<QString> list;
   list.push_back("#include \"SIMPLib/FilterParameters/ConstrainedIntFilterParameter.h\"");
@@ -96,4 +95,11 @@ QList<QString> ConstrainedIntWidgetCodeGenerator::generateCPPIncludes()
 ConstrainedIntWidgetCodeGenerator::Pointer ConstrainedIntWidgetCodeGenerator::NullPointer()
 {
   return Pointer(static_cast<Self*>(nullptr));
+}
+
+// -----------------------------------------------------------------------------
+ConstrainedIntWidgetCodeGenerator::Pointer ConstrainedIntWidgetCodeGenerator::New(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
+{
+  Pointer sharedPtr(new Self(humanLabel, propertyName, category, initValue));
+  return sharedPtr;
 }

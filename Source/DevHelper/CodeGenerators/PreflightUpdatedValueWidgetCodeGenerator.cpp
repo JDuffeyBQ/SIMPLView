@@ -40,7 +40,7 @@
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-PreflightUpdatedValueWidgetCodeGenerator::PreflightUpdatedValueWidgetCodeGenerator(QString humanLabel, QString propertyName, QString category, QString initValue)
+PreflightUpdatedValueWidgetCodeGenerator::PreflightUpdatedValueWidgetCodeGenerator(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
 : FPCodeGenerator(humanLabel, propertyName, category, initValue, "QString")
 {
 }
@@ -48,13 +48,12 @@ PreflightUpdatedValueWidgetCodeGenerator::PreflightUpdatedValueWidgetCodeGenerat
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-PreflightUpdatedValueWidgetCodeGenerator::~PreflightUpdatedValueWidgetCodeGenerator()
-{}
+PreflightUpdatedValueWidgetCodeGenerator::~PreflightUpdatedValueWidgetCodeGenerator() = default;
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString PreflightUpdatedValueWidgetCodeGenerator::generateSetupFilterParameters()
+QString PreflightUpdatedValueWidgetCodeGenerator::generateSetupFilterParameters() const
 {
   QString s;
   QTextStream out(&s);
@@ -65,7 +64,7 @@ QString PreflightUpdatedValueWidgetCodeGenerator::generateSetupFilterParameters(
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString PreflightUpdatedValueWidgetCodeGenerator::generateDataCheck()
+QString PreflightUpdatedValueWidgetCodeGenerator::generateDataCheck() const
 {
   return "";
 }
@@ -73,7 +72,7 @@ QString PreflightUpdatedValueWidgetCodeGenerator::generateDataCheck()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString PreflightUpdatedValueWidgetCodeGenerator::generateFilterParameters()
+QString PreflightUpdatedValueWidgetCodeGenerator::generateFilterParameters() const
 {
   QString contents;
   QTextStream ss(&contents);
@@ -86,7 +85,7 @@ QString PreflightUpdatedValueWidgetCodeGenerator::generateFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QList<QString> PreflightUpdatedValueWidgetCodeGenerator::generateCPPIncludes()
+QList<QString> PreflightUpdatedValueWidgetCodeGenerator::generateCPPIncludes() const
 {
   QList<QString> list;
   list.push_back("#include \"SIMPLib/FilterParameters/PreflightUpdatedValueFilterParameter.h\"");
@@ -97,4 +96,11 @@ QList<QString> PreflightUpdatedValueWidgetCodeGenerator::generateCPPIncludes()
 PreflightUpdatedValueWidgetCodeGenerator::Pointer PreflightUpdatedValueWidgetCodeGenerator::NullPointer()
 {
   return Pointer(static_cast<Self*>(nullptr));
+}
+
+// -----------------------------------------------------------------------------
+PreflightUpdatedValueWidgetCodeGenerator::Pointer PreflightUpdatedValueWidgetCodeGenerator::New(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
+{
+  Pointer sharedPtr(new Self(humanLabel, propertyName, category, initValue));
+  return sharedPtr;
 }

@@ -38,7 +38,7 @@
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-MontageSelectionWidgetCodeGenerator::MontageSelectionWidgetCodeGenerator(QString humanLabel, QString propertyName, QString category, QString initValue)
+MontageSelectionWidgetCodeGenerator::MontageSelectionWidgetCodeGenerator(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
 : FPCodeGenerator(humanLabel, propertyName, category, initValue, "MontageSelection")
 {
 }
@@ -46,14 +46,12 @@ MontageSelectionWidgetCodeGenerator::MontageSelectionWidgetCodeGenerator(QString
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-MontageSelectionWidgetCodeGenerator::~MontageSelectionWidgetCodeGenerator()
-{
-}
+MontageSelectionWidgetCodeGenerator::~MontageSelectionWidgetCodeGenerator() = default;
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString MontageSelectionWidgetCodeGenerator::generateSetupFilterParameters()
+QString MontageSelectionWidgetCodeGenerator::generateSetupFilterParameters() const
 {
   QString s;
   QTextStream out(&s);
@@ -64,7 +62,7 @@ QString MontageSelectionWidgetCodeGenerator::generateSetupFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString MontageSelectionWidgetCodeGenerator::generateDataCheck()
+QString MontageSelectionWidgetCodeGenerator::generateDataCheck() const
 {
   return "";
 }
@@ -72,7 +70,7 @@ QString MontageSelectionWidgetCodeGenerator::generateDataCheck()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString MontageSelectionWidgetCodeGenerator::generateFilterParameters()
+QString MontageSelectionWidgetCodeGenerator::generateFilterParameters() const
 {
   QString contents;
   QTextStream ss(&contents);
@@ -85,7 +83,7 @@ QString MontageSelectionWidgetCodeGenerator::generateFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QList<QString> MontageSelectionWidgetCodeGenerator::generateHIncludes()
+QList<QString> MontageSelectionWidgetCodeGenerator::generateHIncludes() const
 {
   QList<QString> list;
   list.push_back("#include \"SIMPLib/FilterParameters/MontageSelectionFilterParameter.h\"");
@@ -96,4 +94,11 @@ QList<QString> MontageSelectionWidgetCodeGenerator::generateHIncludes()
 MontageSelectionWidgetCodeGenerator::Pointer MontageSelectionWidgetCodeGenerator::NullPointer()
 {
   return Pointer(static_cast<Self*>(nullptr));
+}
+
+// -----------------------------------------------------------------------------
+MontageSelectionWidgetCodeGenerator::Pointer MontageSelectionWidgetCodeGenerator::New(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
+{
+  Pointer sharedPtr(new Self(humanLabel, propertyName, category, initValue));
+  return sharedPtr;
 }

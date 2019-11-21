@@ -40,7 +40,7 @@
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-ConstrainedDoubleWidgetCodeGenerator::ConstrainedDoubleWidgetCodeGenerator(QString humanLabel, QString propertyName, QString category, QString initValue)
+ConstrainedDoubleWidgetCodeGenerator::ConstrainedDoubleWidgetCodeGenerator(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
 : FPCodeGenerator(humanLabel, propertyName, category, initValue, "double", true)
 {
 }
@@ -48,13 +48,12 @@ ConstrainedDoubleWidgetCodeGenerator::ConstrainedDoubleWidgetCodeGenerator(QStri
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-ConstrainedDoubleWidgetCodeGenerator::~ConstrainedDoubleWidgetCodeGenerator()
-{}
+ConstrainedDoubleWidgetCodeGenerator::~ConstrainedDoubleWidgetCodeGenerator() = default;
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString ConstrainedDoubleWidgetCodeGenerator::generateSetupFilterParameters()
+QString ConstrainedDoubleWidgetCodeGenerator::generateSetupFilterParameters() const
 {
   QString s;
   QTextStream out(&s);
@@ -65,7 +64,7 @@ QString ConstrainedDoubleWidgetCodeGenerator::generateSetupFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString ConstrainedDoubleWidgetCodeGenerator::generateDataCheck()
+QString ConstrainedDoubleWidgetCodeGenerator::generateDataCheck() const
 {
   return "";
 }
@@ -73,7 +72,7 @@ QString ConstrainedDoubleWidgetCodeGenerator::generateDataCheck()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString ConstrainedDoubleWidgetCodeGenerator::generateFilterParameters()
+QString ConstrainedDoubleWidgetCodeGenerator::generateFilterParameters() const
 {
   QString contents;
   QTextStream ss(&contents);
@@ -86,7 +85,7 @@ QString ConstrainedDoubleWidgetCodeGenerator::generateFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QList<QString> ConstrainedDoubleWidgetCodeGenerator::generateCPPIncludes()
+QList<QString> ConstrainedDoubleWidgetCodeGenerator::generateCPPIncludes() const
 {
   QList<QString> list;
   list.push_back("#include \"SIMPLib/FilterParameters/ConstrainedDoubleFilterParameter.h\"");
@@ -97,4 +96,11 @@ QList<QString> ConstrainedDoubleWidgetCodeGenerator::generateCPPIncludes()
 ConstrainedDoubleWidgetCodeGenerator::Pointer ConstrainedDoubleWidgetCodeGenerator::NullPointer()
 {
   return Pointer(static_cast<Self*>(nullptr));
+}
+
+// -----------------------------------------------------------------------------
+ConstrainedDoubleWidgetCodeGenerator::Pointer ConstrainedDoubleWidgetCodeGenerator::New(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
+{
+  Pointer sharedPtr(new Self(humanLabel, propertyName, category, initValue));
+  return sharedPtr;
 }

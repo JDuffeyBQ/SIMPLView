@@ -48,31 +48,25 @@ class SeparatorWidgetCodeGenerator : public FPCodeGenerator
     using Pointer = std::shared_ptr<Self>;
     using ConstPointer = std::shared_ptr<const Self>;
     using WeakPointer = std::weak_ptr<Self>;
-    using ConstWeakPointer = std::weak_ptr<Self>;
+    using ConstWeakPointer = std::weak_ptr<const Self>;
     static Pointer NullPointer();
 
-    static Pointer New(QString humanLabel, QString propertyName, QString category, QString initValue)
-    {
-      Pointer sharedPtr(new SeparatorWidgetCodeGenerator(humanLabel, propertyName, category, initValue));
-      return sharedPtr;
-    }
+    static Pointer New(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue);
 
-    virtual ~SeparatorWidgetCodeGenerator();
+    ~SeparatorWidgetCodeGenerator() override;
 
-    QString generateSetupFilterParameters() override;
+    QString generateSetupFilterParameters() const override;
 
-    virtual QString generateWriteFilterParameters();
+    QString generateDataCheck() const override;
 
-    QString generateDataCheck() override;
+    QString generateInitializationList() const override;
 
-    virtual QString generateInitializationList();
+    QString generatePybindContents() const override;
 
-    QString generatePybindContents() override;
-
-    QList<QString> generateCPPIncludes() override;
+    QList<QString> generateCPPIncludes() const override;
 
   protected:
-    SeparatorWidgetCodeGenerator(QString humanLabel, QString propertyName, QString category, QString initValue);
+    SeparatorWidgetCodeGenerator(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue);
 
   public:
     SeparatorWidgetCodeGenerator(const SeparatorWidgetCodeGenerator&) = delete; // Copy Constructor Not Implemented

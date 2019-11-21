@@ -40,7 +40,7 @@
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-MultiDataContainerSelectionWidgetCodeGenerator::MultiDataContainerSelectionWidgetCodeGenerator(QString humanLabel, QString propertyName, QString category, QString initValue)
+MultiDataContainerSelectionWidgetCodeGenerator::MultiDataContainerSelectionWidgetCodeGenerator(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
 : FPCodeGenerator(humanLabel, propertyName, category, initValue, "QStringList")
 {
 }
@@ -53,7 +53,7 @@ MultiDataContainerSelectionWidgetCodeGenerator::~MultiDataContainerSelectionWidg
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString MultiDataContainerSelectionWidgetCodeGenerator::generateSetupFilterParameters()
+QString MultiDataContainerSelectionWidgetCodeGenerator::generateSetupFilterParameters() const
 {
   QString s;
   QTextStream out(&s);
@@ -65,7 +65,7 @@ QString MultiDataContainerSelectionWidgetCodeGenerator::generateSetupFilterParam
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString MultiDataContainerSelectionWidgetCodeGenerator::generateDataCheck()
+QString MultiDataContainerSelectionWidgetCodeGenerator::generateDataCheck() const
 {
   return "";
 }
@@ -73,7 +73,7 @@ QString MultiDataContainerSelectionWidgetCodeGenerator::generateDataCheck()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString MultiDataContainerSelectionWidgetCodeGenerator::generateFilterParameters()
+QString MultiDataContainerSelectionWidgetCodeGenerator::generateFilterParameters() const
 {
   QString contents;
   QTextStream ss(&contents);
@@ -86,7 +86,7 @@ QString MultiDataContainerSelectionWidgetCodeGenerator::generateFilterParameters
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QList<QString> MultiDataContainerSelectionWidgetCodeGenerator::generateHIncludes()
+QList<QString> MultiDataContainerSelectionWidgetCodeGenerator::generateHIncludes() const
 {
   QList<QString> list;
   list.push_back("#include \"SIMPLib/FilterParameters/MultiDataContainerSelectionFilterParameter.h\"");
@@ -97,4 +97,11 @@ QList<QString> MultiDataContainerSelectionWidgetCodeGenerator::generateHIncludes
 MultiDataContainerSelectionWidgetCodeGenerator::Pointer MultiDataContainerSelectionWidgetCodeGenerator::NullPointer()
 {
   return Pointer(static_cast<Self*>(nullptr));
+}
+
+// -----------------------------------------------------------------------------
+MultiDataContainerSelectionWidgetCodeGenerator::Pointer MultiDataContainerSelectionWidgetCodeGenerator::New(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
+{
+  Pointer sharedPtr(new Self(humanLabel, propertyName, category, initValue));
+  return sharedPtr;
 }

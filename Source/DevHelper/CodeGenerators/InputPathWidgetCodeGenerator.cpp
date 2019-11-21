@@ -40,7 +40,7 @@
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-InputPathWidgetCodeGenerator::InputPathWidgetCodeGenerator(QString humanLabel, QString propertyName, QString category, QString initValue)
+InputPathWidgetCodeGenerator::InputPathWidgetCodeGenerator(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
 : FPCodeGenerator(humanLabel, propertyName, category, initValue, "QString")
 {
 }
@@ -48,13 +48,12 @@ InputPathWidgetCodeGenerator::InputPathWidgetCodeGenerator(QString humanLabel, Q
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-InputPathWidgetCodeGenerator::~InputPathWidgetCodeGenerator()
-{}
+InputPathWidgetCodeGenerator::~InputPathWidgetCodeGenerator() = default;
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString InputPathWidgetCodeGenerator::generateSetupFilterParameters()
+QString InputPathWidgetCodeGenerator::generateSetupFilterParameters() const
 {
   QString s;
   QTextStream out(&s);
@@ -65,7 +64,7 @@ QString InputPathWidgetCodeGenerator::generateSetupFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString InputPathWidgetCodeGenerator::generateDataCheck()
+QString InputPathWidgetCodeGenerator::generateDataCheck() const
 {
   return "";
 }
@@ -73,7 +72,7 @@ QString InputPathWidgetCodeGenerator::generateDataCheck()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString InputPathWidgetCodeGenerator::generateFilterParameters()
+QString InputPathWidgetCodeGenerator::generateFilterParameters() const
 {
   QString contents;
   QTextStream ss(&contents);
@@ -86,7 +85,7 @@ QString InputPathWidgetCodeGenerator::generateFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QList<QString> InputPathWidgetCodeGenerator::generateCPPIncludes()
+QList<QString> InputPathWidgetCodeGenerator::generateCPPIncludes() const
 {
   QList<QString> list;
   list.push_back("#include \"SIMPLib/FilterParameters/InputPathFilterParameter.h\"");
@@ -97,4 +96,11 @@ QList<QString> InputPathWidgetCodeGenerator::generateCPPIncludes()
 InputPathWidgetCodeGenerator::Pointer InputPathWidgetCodeGenerator::NullPointer()
 {
   return Pointer(static_cast<Self*>(nullptr));
+}
+
+// -----------------------------------------------------------------------------
+InputPathWidgetCodeGenerator::Pointer InputPathWidgetCodeGenerator::New(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
+{
+  Pointer sharedPtr(new Self(humanLabel, propertyName, category, initValue));
+  return sharedPtr;
 }

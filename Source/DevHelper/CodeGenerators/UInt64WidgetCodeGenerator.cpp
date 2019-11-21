@@ -49,16 +49,9 @@ UInt64WidgetCodeGenerator::UInt64WidgetCodeGenerator(const QString& humanLabel, 
 UInt64WidgetCodeGenerator::~UInt64WidgetCodeGenerator() = default;
 
 // -----------------------------------------------------------------------------
-UInt64WidgetCodeGenerator::Pointer UInt64WidgetCodeGenerator::New(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
-{
-  Pointer sharedPtr(new UInt64WidgetCodeGenerator(humanLabel, propertyName, category, initValue));
-  return sharedPtr;
-}
-
-// -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString UInt64WidgetCodeGenerator::generateSetupFilterParameters()
+QString UInt64WidgetCodeGenerator::generateSetupFilterParameters() const
 {
   QString s;
   QTextStream out(&s);
@@ -69,7 +62,7 @@ QString UInt64WidgetCodeGenerator::generateSetupFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString UInt64WidgetCodeGenerator::generateDataCheck()
+QString UInt64WidgetCodeGenerator::generateDataCheck() const
 {
   return "";
 }
@@ -77,7 +70,7 @@ QString UInt64WidgetCodeGenerator::generateDataCheck()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString UInt64WidgetCodeGenerator::generateFilterParameters()
+QString UInt64WidgetCodeGenerator::generateFilterParameters() const
 {
   QString contents;
   QTextStream ss(&contents);
@@ -90,7 +83,7 @@ QString UInt64WidgetCodeGenerator::generateFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QList<QString> UInt64WidgetCodeGenerator::generateCPPIncludes()
+QList<QString> UInt64WidgetCodeGenerator::generateCPPIncludes() const
 {
   QList<QString> list;
   list.push_back("#include \"SIMPLib/FilterParameters/UInt64FilterParameter.h\"");
@@ -109,4 +102,11 @@ QList<QString> UInt64WidgetCodeGenerator::generateCPPIncludes()
 UInt64WidgetCodeGenerator::Pointer UInt64WidgetCodeGenerator::NullPointer()
 {
   return Pointer(static_cast<Self*>(nullptr));
+}
+
+// -----------------------------------------------------------------------------
+UInt64WidgetCodeGenerator::Pointer UInt64WidgetCodeGenerator::New(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
+{
+  Pointer sharedPtr(new Self(humanLabel, propertyName, category, initValue));
+  return sharedPtr;
 }

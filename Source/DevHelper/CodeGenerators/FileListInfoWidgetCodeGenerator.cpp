@@ -40,7 +40,7 @@
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-FileListInfoWidgetCodeGenerator::FileListInfoWidgetCodeGenerator(QString humanLabel, QString propertyName, QString category, QString initValue)
+FileListInfoWidgetCodeGenerator::FileListInfoWidgetCodeGenerator(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
 : FPCodeGenerator(humanLabel, propertyName, category, initValue, "FileListInfo_t")
 {
 }
@@ -48,13 +48,12 @@ FileListInfoWidgetCodeGenerator::FileListInfoWidgetCodeGenerator(QString humanLa
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-FileListInfoWidgetCodeGenerator::~FileListInfoWidgetCodeGenerator()
-{}
+FileListInfoWidgetCodeGenerator::~FileListInfoWidgetCodeGenerator() = default;
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString FileListInfoWidgetCodeGenerator::generateSetupFilterParameters()
+QString FileListInfoWidgetCodeGenerator::generateSetupFilterParameters() const
 { 
   QString s;
   QTextStream out(&s);
@@ -65,7 +64,7 @@ QString FileListInfoWidgetCodeGenerator::generateSetupFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString FileListInfoWidgetCodeGenerator::generateDataCheck()
+QString FileListInfoWidgetCodeGenerator::generateDataCheck() const
 {
   return "";
 }
@@ -73,7 +72,7 @@ QString FileListInfoWidgetCodeGenerator::generateDataCheck()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString FileListInfoWidgetCodeGenerator::generateFilterParameters()
+QString FileListInfoWidgetCodeGenerator::generateFilterParameters() const
 {
   QString contents;
   QTextStream ss(&contents);
@@ -86,7 +85,7 @@ QString FileListInfoWidgetCodeGenerator::generateFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QList<QString> FileListInfoWidgetCodeGenerator::generateHIncludes()
+QList<QString> FileListInfoWidgetCodeGenerator::generateHIncludes() const
 {
   QList<QString> list;
   list.push_back("#include \"SIMPLib/FilterParameters/FileListInfoFilterParameter.h\"");
@@ -97,4 +96,11 @@ QList<QString> FileListInfoWidgetCodeGenerator::generateHIncludes()
 FileListInfoWidgetCodeGenerator::Pointer FileListInfoWidgetCodeGenerator::NullPointer()
 {
   return Pointer(static_cast<Self*>(nullptr));
+}
+
+// -----------------------------------------------------------------------------
+FileListInfoWidgetCodeGenerator::Pointer FileListInfoWidgetCodeGenerator::New(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
+{
+  Pointer sharedPtr(new Self(humanLabel, propertyName, category, initValue));
+  return sharedPtr;
 }

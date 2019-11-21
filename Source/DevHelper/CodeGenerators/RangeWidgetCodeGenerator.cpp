@@ -40,7 +40,7 @@
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-RangeWidgetCodeGenerator::RangeWidgetCodeGenerator(QString humanLabel, QString propertyName, QString category, QString initValue)
+RangeWidgetCodeGenerator::RangeWidgetCodeGenerator(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
 : FPCodeGenerator(humanLabel, propertyName, category, initValue, "FPRangePair")
 {
 }
@@ -48,13 +48,12 @@ RangeWidgetCodeGenerator::RangeWidgetCodeGenerator(QString humanLabel, QString p
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-RangeWidgetCodeGenerator::~RangeWidgetCodeGenerator()
-{}
+RangeWidgetCodeGenerator::~RangeWidgetCodeGenerator() = default;
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString RangeWidgetCodeGenerator::generateSetupFilterParameters()
+QString RangeWidgetCodeGenerator::generateSetupFilterParameters() const
 {
   QString s;
   QTextStream out(&s);
@@ -65,7 +64,7 @@ QString RangeWidgetCodeGenerator::generateSetupFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString RangeWidgetCodeGenerator::generateDataCheck()
+QString RangeWidgetCodeGenerator::generateDataCheck() const
 {
   return "";
 }
@@ -73,7 +72,7 @@ QString RangeWidgetCodeGenerator::generateDataCheck()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString RangeWidgetCodeGenerator::generateFilterParameters()
+QString RangeWidgetCodeGenerator::generateFilterParameters() const
 {
   QString contents;
   QTextStream ss(&contents);
@@ -86,7 +85,7 @@ QString RangeWidgetCodeGenerator::generateFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QList<QString> RangeWidgetCodeGenerator::generateHIncludes()
+QList<QString> RangeWidgetCodeGenerator::generateHIncludes() const
 {
   QList<QString> list;
   list.push_back("#include \"SIMPLib/FilterParameters/RangeFilterParameter.h\"");
@@ -97,4 +96,11 @@ QList<QString> RangeWidgetCodeGenerator::generateHIncludes()
 RangeWidgetCodeGenerator::Pointer RangeWidgetCodeGenerator::NullPointer()
 {
   return Pointer(static_cast<Self*>(nullptr));
+}
+
+// -----------------------------------------------------------------------------
+RangeWidgetCodeGenerator::Pointer RangeWidgetCodeGenerator::New(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
+{
+  Pointer sharedPtr(new Self(humanLabel, propertyName, category, initValue));
+  return sharedPtr;
 }

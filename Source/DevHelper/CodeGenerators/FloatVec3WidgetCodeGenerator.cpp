@@ -40,7 +40,7 @@
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-FloatVec3WidgetCodeGenerator::FloatVec3WidgetCodeGenerator(QString humanLabel, QString propertyName, QString category, QString initValue)
+FloatVec3WidgetCodeGenerator::FloatVec3WidgetCodeGenerator(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
 : FPCodeGenerator(humanLabel, propertyName, category, initValue, "FloatVec3Type")
 {
 }
@@ -48,13 +48,12 @@ FloatVec3WidgetCodeGenerator::FloatVec3WidgetCodeGenerator(QString humanLabel, Q
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-FloatVec3WidgetCodeGenerator::~FloatVec3WidgetCodeGenerator()
-{}
+FloatVec3WidgetCodeGenerator::~FloatVec3WidgetCodeGenerator() = default;
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString FloatVec3WidgetCodeGenerator::generateSetupFilterParameters()
+QString FloatVec3WidgetCodeGenerator::generateSetupFilterParameters() const
 {
   QString s;
   QTextStream out(&s);
@@ -65,7 +64,7 @@ QString FloatVec3WidgetCodeGenerator::generateSetupFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString FloatVec3WidgetCodeGenerator::generateDataCheck()
+QString FloatVec3WidgetCodeGenerator::generateDataCheck() const
 {
   return "";
 }
@@ -73,7 +72,7 @@ QString FloatVec3WidgetCodeGenerator::generateDataCheck()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString FloatVec3WidgetCodeGenerator::generateFilterParameters()
+QString FloatVec3WidgetCodeGenerator::generateFilterParameters() const
 {
   QString contents;
   QTextStream ss(&contents);
@@ -86,7 +85,7 @@ QString FloatVec3WidgetCodeGenerator::generateFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QList<QString> FloatVec3WidgetCodeGenerator::generateHIncludes()
+QList<QString> FloatVec3WidgetCodeGenerator::generateHIncludes() const
 {
   QList<QString> list;
   list.push_back("#include \"SIMPLib/FilterParameters/FloatVec3FilterParameter.h\"");
@@ -97,4 +96,11 @@ QList<QString> FloatVec3WidgetCodeGenerator::generateHIncludes()
 FloatVec3WidgetCodeGenerator::Pointer FloatVec3WidgetCodeGenerator::NullPointer()
 {
   return Pointer(static_cast<Self*>(nullptr));
+}
+
+// -----------------------------------------------------------------------------
+FloatVec3WidgetCodeGenerator::Pointer FloatVec3WidgetCodeGenerator::New(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
+{
+  Pointer sharedPtr(new Self(humanLabel, propertyName, category, initValue));
+  return sharedPtr;
 }

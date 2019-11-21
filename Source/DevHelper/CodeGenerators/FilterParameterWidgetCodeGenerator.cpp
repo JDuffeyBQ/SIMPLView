@@ -48,8 +48,7 @@ FilterParameterWidgetCodeGenerator::FilterParameterWidgetCodeGenerator(QString h
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-FilterParameterWidgetCodeGenerator::~FilterParameterWidgetCodeGenerator()
-{}
+FilterParameterWidgetCodeGenerator::~FilterParameterWidgetCodeGenerator() = default;
 
 // -----------------------------------------------------------------------------
 //
@@ -107,7 +106,7 @@ QString FilterParameterWidgetCodeGenerator::generateInitializationList()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QList<QString> FilterParameterWidgetCodeGenerator::generateHIncludes()
+QList<QString> FilterParameterWidgetCodeGenerator::generateHIncludes() const
 {
   return "";
 }

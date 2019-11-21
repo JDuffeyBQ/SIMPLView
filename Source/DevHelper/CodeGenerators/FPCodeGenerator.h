@@ -63,46 +63,46 @@ class FPCodeGenerator
     using Pointer = std::shared_ptr<Self>;
     using ConstPointer = std::shared_ptr<const Self>;
     using WeakPointer = std::weak_ptr<Self>;
-    using ConstWeakPointer = std::weak_ptr<Self>;
+    using ConstWeakPointer = std::weak_ptr<const Self>;
     static Pointer NullPointer();
 
     static Pointer New(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue);
 
     virtual ~FPCodeGenerator();
 
-    virtual QString generateSetupFilterParameters();
+    virtual QString generateSetupFilterParameters() const;
 
-    virtual QString generateDataCheck();
+    virtual QString generateDataCheck() const;
 
-    virtual QString generateFilterAccessorDeclarations();
+    virtual QString generateFilterAccessorDeclarations() const;
 
-    virtual QString generateInitializationList();
+    virtual QString generateInitializationList() const;
 
-    virtual QString generatePybindContents();
+    virtual QString generatePybindContents() const;
 
-    virtual QList<QString> generateHIncludes();
+    virtual QList<QString> generateHIncludes() const;
 
-    virtual QList<QString> generateCPPIncludes();
+    virtual QList<QString> generateCPPIncludes() const;
 
-    virtual QString generateFilterParameterDefinitions();
+    virtual QString generateFilterParameterDefinitions() const;
 
-    virtual QString generateFilterParameterDeclarations();
+    virtual QString generateFilterParameterDeclarations() const;
 
     /**
      * @deprecated
      * @brief generateFilterParameters
      * @return
      */
-    virtual QString generateFilterParameters();
+    virtual QString generateFilterParameters() const;
 
   protected:
     FPCodeGenerator(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue, const QString& varType, bool podType = false);
 
-    QString getPropertyName();
-    QString getHumanLabel();
-    QString getCategory();
-    QString getInitValue();
-    QString getVariableType();
+    QString getPropertyName() const;
+    QString getHumanLabel() const;
+    QString getCategory() const;
+    QString getInitValue() const;
+    QString getVariableType() const;
 
   private:
     QString m_PropertyName;

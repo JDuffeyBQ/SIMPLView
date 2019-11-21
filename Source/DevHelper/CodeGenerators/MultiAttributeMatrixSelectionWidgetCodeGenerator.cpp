@@ -40,7 +40,7 @@
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-MultiAttributeMatrixSelectionWidgetCodeGenerator::MultiAttributeMatrixSelectionWidgetCodeGenerator(QString humanLabel, QString propertyName, QString category, QString initValue)
+MultiAttributeMatrixSelectionWidgetCodeGenerator::MultiAttributeMatrixSelectionWidgetCodeGenerator(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
 : FPCodeGenerator(humanLabel, propertyName, category, initValue, "QVector<DataArrayPath>")
 {
 }
@@ -48,13 +48,12 @@ MultiAttributeMatrixSelectionWidgetCodeGenerator::MultiAttributeMatrixSelectionW
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-MultiAttributeMatrixSelectionWidgetCodeGenerator::~MultiAttributeMatrixSelectionWidgetCodeGenerator()
-{}
+MultiAttributeMatrixSelectionWidgetCodeGenerator::~MultiAttributeMatrixSelectionWidgetCodeGenerator() = default;
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString MultiAttributeMatrixSelectionWidgetCodeGenerator::generateSetupFilterParameters()
+QString MultiAttributeMatrixSelectionWidgetCodeGenerator::generateSetupFilterParameters() const
 {
   QString s;
   QTextStream out(&s);
@@ -66,7 +65,7 @@ QString MultiAttributeMatrixSelectionWidgetCodeGenerator::generateSetupFilterPar
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString MultiAttributeMatrixSelectionWidgetCodeGenerator::generateDataCheck()
+QString MultiAttributeMatrixSelectionWidgetCodeGenerator::generateDataCheck() const
 {
   return "";
 }
@@ -74,7 +73,7 @@ QString MultiAttributeMatrixSelectionWidgetCodeGenerator::generateDataCheck()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString MultiAttributeMatrixSelectionWidgetCodeGenerator::generateFilterParameters()
+QString MultiAttributeMatrixSelectionWidgetCodeGenerator::generateFilterParameters() const
 {
   QString contents;
   QTextStream ss(&contents);
@@ -87,7 +86,7 @@ QString MultiAttributeMatrixSelectionWidgetCodeGenerator::generateFilterParamete
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QList<QString> MultiAttributeMatrixSelectionWidgetCodeGenerator::generateCPPIncludes()
+QList<QString> MultiAttributeMatrixSelectionWidgetCodeGenerator::generateCPPIncludes() const
 {
   QList<QString> list;
   list.push_back("#include \"SIMPLib/FilterParameters/MultiAttributeMatrixSelectionFilterParameter.h\"");
@@ -98,4 +97,11 @@ QList<QString> MultiAttributeMatrixSelectionWidgetCodeGenerator::generateCPPIncl
 MultiAttributeMatrixSelectionWidgetCodeGenerator::Pointer MultiAttributeMatrixSelectionWidgetCodeGenerator::NullPointer()
 {
   return Pointer(static_cast<Self*>(nullptr));
+}
+
+// -----------------------------------------------------------------------------
+MultiAttributeMatrixSelectionWidgetCodeGenerator::Pointer MultiAttributeMatrixSelectionWidgetCodeGenerator::New(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
+{
+  Pointer sharedPtr(new Self(humanLabel, propertyName, category, initValue));
+  return sharedPtr;
 }

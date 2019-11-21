@@ -40,7 +40,7 @@
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-AxisAngleWidgetCodeGenerator::AxisAngleWidgetCodeGenerator(QString humanLabel, QString propertyName, QString category, QString initValue)
+AxisAngleWidgetCodeGenerator::AxisAngleWidgetCodeGenerator(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
 : FPCodeGenerator(humanLabel, propertyName, category, initValue, "AxisAngleInput_t")
 {
 }
@@ -48,13 +48,12 @@ AxisAngleWidgetCodeGenerator::AxisAngleWidgetCodeGenerator(QString humanLabel, Q
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-AxisAngleWidgetCodeGenerator::~AxisAngleWidgetCodeGenerator()
-{}
+AxisAngleWidgetCodeGenerator::~AxisAngleWidgetCodeGenerator() = default;
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString AxisAngleWidgetCodeGenerator::generateSetupFilterParameters()
+QString AxisAngleWidgetCodeGenerator::generateSetupFilterParameters() const
 { 
   QString s;
   QTextStream out(&s);
@@ -65,7 +64,7 @@ QString AxisAngleWidgetCodeGenerator::generateSetupFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString AxisAngleWidgetCodeGenerator::generateDataCheck()
+QString AxisAngleWidgetCodeGenerator::generateDataCheck() const
 {
   return "";
 }
@@ -73,7 +72,7 @@ QString AxisAngleWidgetCodeGenerator::generateDataCheck()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString AxisAngleWidgetCodeGenerator::generateFilterParameters()
+QString AxisAngleWidgetCodeGenerator::generateFilterParameters() const
 {
   QString contents;
   QTextStream ss(&contents);
@@ -86,7 +85,7 @@ QString AxisAngleWidgetCodeGenerator::generateFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QList<QString> AxisAngleWidgetCodeGenerator::generateCPPIncludes()
+QList<QString> AxisAngleWidgetCodeGenerator::generateCPPIncludes() const
 {
   QList<QString> list;
   list.push_back("#include \"SIMPLib/FilterParameters/AxisAngleFilterParameter.h\"");
@@ -96,7 +95,7 @@ QList<QString> AxisAngleWidgetCodeGenerator::generateCPPIncludes()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QList<QString> AxisAngleWidgetCodeGenerator::generateHIncludes()
+QList<QString> AxisAngleWidgetCodeGenerator::generateHIncludes() const
 {
   QList<QString> list;
   list.push_back("#include \"EbsdLib/EbsdConstants.h\"");
@@ -108,4 +107,11 @@ QList<QString> AxisAngleWidgetCodeGenerator::generateHIncludes()
 AxisAngleWidgetCodeGenerator::Pointer AxisAngleWidgetCodeGenerator::NullPointer()
 {
   return Pointer(static_cast<Self*>(nullptr));
+}
+
+// -----------------------------------------------------------------------------
+AxisAngleWidgetCodeGenerator::Pointer AxisAngleWidgetCodeGenerator::New(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
+{
+  Pointer sharedPtr(new Self(humanLabel, propertyName, category, initValue));
+  return sharedPtr;
 }

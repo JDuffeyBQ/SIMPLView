@@ -51,7 +51,7 @@ LinkedPathCreationWidgetCodeGenerator::~LinkedPathCreationWidgetCodeGenerator() 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString LinkedPathCreationWidgetCodeGenerator::generateSetupFilterParameters()
+QString LinkedPathCreationWidgetCodeGenerator::generateSetupFilterParameters() const
 {
   QString s;
   QTextStream out(&s);
@@ -63,7 +63,7 @@ QString LinkedPathCreationWidgetCodeGenerator::generateSetupFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString LinkedPathCreationWidgetCodeGenerator::generateDataCheck()
+QString LinkedPathCreationWidgetCodeGenerator::generateDataCheck() const
 {
   return "";
 }
@@ -71,7 +71,7 @@ QString LinkedPathCreationWidgetCodeGenerator::generateDataCheck()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString LinkedPathCreationWidgetCodeGenerator::generateFilterParameters()
+QString LinkedPathCreationWidgetCodeGenerator::generateFilterParameters() const
 {
   QString contents;
   QTextStream ss(&contents);
@@ -84,7 +84,7 @@ QString LinkedPathCreationWidgetCodeGenerator::generateFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QList<QString> LinkedPathCreationWidgetCodeGenerator::generateCPPIncludes()
+QList<QString> LinkedPathCreationWidgetCodeGenerator::generateCPPIncludes() const
 {
   QList<QString> list;
   list.push_back("#include \"SIMPLib/FilterParameters/LinkedPathCreationFilterParameter.h\"");
@@ -95,4 +95,11 @@ QList<QString> LinkedPathCreationWidgetCodeGenerator::generateCPPIncludes()
 LinkedPathCreationWidgetCodeGenerator::Pointer LinkedPathCreationWidgetCodeGenerator::NullPointer()
 {
   return Pointer(static_cast<Self*>(nullptr));
+}
+
+// -----------------------------------------------------------------------------
+LinkedPathCreationWidgetCodeGenerator::Pointer LinkedPathCreationWidgetCodeGenerator::New(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
+{
+  Pointer sharedPtr(new Self(humanLabel, propertyName, category, initValue));
+  return sharedPtr;
 }

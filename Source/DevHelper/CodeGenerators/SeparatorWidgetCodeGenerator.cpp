@@ -40,7 +40,7 @@
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-SeparatorWidgetCodeGenerator::SeparatorWidgetCodeGenerator(QString humanLabel, QString propertyName, QString category, QString initValue)
+SeparatorWidgetCodeGenerator::SeparatorWidgetCodeGenerator(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
 : FPCodeGenerator(humanLabel, propertyName, category, initValue, "")
 {
 }
@@ -48,13 +48,12 @@ SeparatorWidgetCodeGenerator::SeparatorWidgetCodeGenerator(QString humanLabel, Q
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-SeparatorWidgetCodeGenerator::~SeparatorWidgetCodeGenerator()
-{}
+SeparatorWidgetCodeGenerator::~SeparatorWidgetCodeGenerator() = default;
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString SeparatorWidgetCodeGenerator::generateSetupFilterParameters()
+QString SeparatorWidgetCodeGenerator::generateSetupFilterParameters() const
 {
   return "  parameters.push_back(SeparatorFilterParameter::New(\"" + getHumanLabel() + "\", " + getCategory() + "));";
 }
@@ -62,7 +61,7 @@ QString SeparatorWidgetCodeGenerator::generateSetupFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString SeparatorWidgetCodeGenerator::generateWriteFilterParameters()
+QString SeparatorWidgetCodeGenerator::generateDataCheck() const
 {
   return "";
 }
@@ -70,7 +69,7 @@ QString SeparatorWidgetCodeGenerator::generateWriteFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString SeparatorWidgetCodeGenerator::generateDataCheck()
+QString SeparatorWidgetCodeGenerator::generateInitializationList() const
 {
   return "";
 }
@@ -78,15 +77,7 @@ QString SeparatorWidgetCodeGenerator::generateDataCheck()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString SeparatorWidgetCodeGenerator::generateInitializationList()
-{
-  return "";
-}
-
-// -----------------------------------------------------------------------------
-//
-// -----------------------------------------------------------------------------
-QList<QString> SeparatorWidgetCodeGenerator::generateCPPIncludes()
+QList<QString> SeparatorWidgetCodeGenerator::generateCPPIncludes() const
 {
   QList<QString> list;
   list.push_back("#include \"SIMPLib/FilterParameters/SeparatorFilterParameter.h\"");
@@ -96,7 +87,7 @@ QList<QString> SeparatorWidgetCodeGenerator::generateCPPIncludes()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString SeparatorWidgetCodeGenerator::generatePybindContents()
+QString SeparatorWidgetCodeGenerator::generatePybindContents() const
 {
   return "";
 }
@@ -105,4 +96,11 @@ QString SeparatorWidgetCodeGenerator::generatePybindContents()
 SeparatorWidgetCodeGenerator::Pointer SeparatorWidgetCodeGenerator::NullPointer()
 {
   return Pointer(static_cast<Self*>(nullptr));
+}
+
+// -----------------------------------------------------------------------------
+SeparatorWidgetCodeGenerator::Pointer SeparatorWidgetCodeGenerator::New(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
+{
+  Pointer sharedPtr(new Self(humanLabel, propertyName, category, initValue));
+  return sharedPtr;
 }

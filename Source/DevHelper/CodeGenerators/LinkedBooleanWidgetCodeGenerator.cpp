@@ -40,7 +40,7 @@
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-LinkedBooleanWidgetCodeGenerator::LinkedBooleanWidgetCodeGenerator(QString humanLabel, QString propertyName, QString category, QString initValue)
+LinkedBooleanWidgetCodeGenerator::LinkedBooleanWidgetCodeGenerator(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
 : FPCodeGenerator(humanLabel, propertyName, category, initValue, "bool", true)
 {
 }
@@ -48,13 +48,12 @@ LinkedBooleanWidgetCodeGenerator::LinkedBooleanWidgetCodeGenerator(QString human
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-LinkedBooleanWidgetCodeGenerator::~LinkedBooleanWidgetCodeGenerator()
-{}
+LinkedBooleanWidgetCodeGenerator::~LinkedBooleanWidgetCodeGenerator() = default;
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString LinkedBooleanWidgetCodeGenerator::generateSetupFilterParameters()
+QString LinkedBooleanWidgetCodeGenerator::generateSetupFilterParameters() const
 { 
   QString s;
   QTextStream out(&s);
@@ -65,7 +64,7 @@ QString LinkedBooleanWidgetCodeGenerator::generateSetupFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString LinkedBooleanWidgetCodeGenerator::generateDataCheck()
+QString LinkedBooleanWidgetCodeGenerator::generateDataCheck() const
 {
   return "";
 }
@@ -73,7 +72,7 @@ QString LinkedBooleanWidgetCodeGenerator::generateDataCheck()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString LinkedBooleanWidgetCodeGenerator::generateFilterParameters()
+QString LinkedBooleanWidgetCodeGenerator::generateFilterParameters() const
 {
   QString contents;
   QTextStream ss(&contents);
@@ -86,7 +85,7 @@ QString LinkedBooleanWidgetCodeGenerator::generateFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QList<QString> LinkedBooleanWidgetCodeGenerator::generateCPPIncludes()
+QList<QString> LinkedBooleanWidgetCodeGenerator::generateCPPIncludes() const
 {
   QList<QString> list;
   list.push_back("#include \"SIMPLib/FilterParameters/LinkedBooleanFilterParameter.h\"");
@@ -97,4 +96,11 @@ QList<QString> LinkedBooleanWidgetCodeGenerator::generateCPPIncludes()
 LinkedBooleanWidgetCodeGenerator::Pointer LinkedBooleanWidgetCodeGenerator::NullPointer()
 {
   return Pointer(static_cast<Self*>(nullptr));
+}
+
+// -----------------------------------------------------------------------------
+LinkedBooleanWidgetCodeGenerator::Pointer LinkedBooleanWidgetCodeGenerator::New(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
+{
+  Pointer sharedPtr(new Self(humanLabel, propertyName, category, initValue));
+  return sharedPtr;
 }

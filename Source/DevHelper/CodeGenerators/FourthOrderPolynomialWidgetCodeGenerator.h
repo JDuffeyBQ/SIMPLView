@@ -48,27 +48,23 @@ class FourthOrderPolynomialWidgetCodeGenerator : public FPCodeGenerator
     using Pointer = std::shared_ptr<Self>;
     using ConstPointer = std::shared_ptr<const Self>;
     using WeakPointer = std::weak_ptr<Self>;
-    using ConstWeakPointer = std::weak_ptr<Self>;
+    using ConstWeakPointer = std::weak_ptr<const Self>;
     static Pointer NullPointer();
 
-    static Pointer New(QString humanLabel, QString propertyName, QString category, QString initValue)
-    {
-      Pointer sharedPtr(new FourthOrderPolynomialWidgetCodeGenerator(humanLabel, propertyName, category, initValue));
-      return sharedPtr;
-    }
+    static Pointer New(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue);
 
-    virtual ~FourthOrderPolynomialWidgetCodeGenerator();
+    ~FourthOrderPolynomialWidgetCodeGenerator() override;
 
-    QString generateSetupFilterParameters() override;
+    QString generateSetupFilterParameters() const override;
 
-    QString generateDataCheck() override;
+    QString generateDataCheck() const override;
 
-    QString generateFilterParameters() override;
+    QString generateFilterParameters() const override;
 
-    virtual QList<QString> generateHIncludes();
+    QList<QString> generateHIncludes() const override;
 
   protected:
-    FourthOrderPolynomialWidgetCodeGenerator(QString humanLabel, QString propertyName, QString category, QString initValue);
+    FourthOrderPolynomialWidgetCodeGenerator(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue);
 
   public:
     FourthOrderPolynomialWidgetCodeGenerator(const FourthOrderPolynomialWidgetCodeGenerator&) = delete; // Copy Constructor Not Implemented

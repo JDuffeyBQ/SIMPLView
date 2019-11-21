@@ -40,7 +40,7 @@
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-GenerateColorTableWidgetCodeGenerator::GenerateColorTableWidgetCodeGenerator(QString humanLabel, QString propertyName, QString category, QString initValue)
+GenerateColorTableWidgetCodeGenerator::GenerateColorTableWidgetCodeGenerator(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
 : FPCodeGenerator(humanLabel, propertyName, category, initValue, "QString")
 {
 }
@@ -48,13 +48,12 @@ GenerateColorTableWidgetCodeGenerator::GenerateColorTableWidgetCodeGenerator(QSt
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-GenerateColorTableWidgetCodeGenerator::~GenerateColorTableWidgetCodeGenerator()
-{}
+GenerateColorTableWidgetCodeGenerator::~GenerateColorTableWidgetCodeGenerator() = default;
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString GenerateColorTableWidgetCodeGenerator::generateSetupFilterParameters()
+QString GenerateColorTableWidgetCodeGenerator::generateSetupFilterParameters() const
 {
   QString contents;
   QTextStream ss(&contents);
@@ -77,7 +76,7 @@ QString GenerateColorTableWidgetCodeGenerator::generateSetupFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString GenerateColorTableWidgetCodeGenerator::generateDataCheck()
+QString GenerateColorTableWidgetCodeGenerator::generateDataCheck() const
 {
   return "";
 }
@@ -85,7 +84,7 @@ QString GenerateColorTableWidgetCodeGenerator::generateDataCheck()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString GenerateColorTableWidgetCodeGenerator::generateFilterParameters()
+QString GenerateColorTableWidgetCodeGenerator::generateFilterParameters() const
 {
   QString contents;
 
@@ -95,7 +94,7 @@ QString GenerateColorTableWidgetCodeGenerator::generateFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QList<QString> GenerateColorTableWidgetCodeGenerator::generateHIncludes()
+QList<QString> GenerateColorTableWidgetCodeGenerator::generateHIncludes() const
 {
   QList<QString> list;
 
@@ -105,7 +104,7 @@ QList<QString> GenerateColorTableWidgetCodeGenerator::generateHIncludes()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QList<QString> GenerateColorTableWidgetCodeGenerator::generateCPPIncludes()
+QList<QString> GenerateColorTableWidgetCodeGenerator::generateCPPIncludes() const
 {
   QList<QString> list;
   list.push_back("#include \"SIMPLib/FilterParameters/GenerateColorTableFilterParameter.h\"");
@@ -116,4 +115,11 @@ QList<QString> GenerateColorTableWidgetCodeGenerator::generateCPPIncludes()
 GenerateColorTableWidgetCodeGenerator::Pointer GenerateColorTableWidgetCodeGenerator::NullPointer()
 {
   return Pointer(static_cast<Self*>(nullptr));
+}
+
+// -----------------------------------------------------------------------------
+GenerateColorTableWidgetCodeGenerator::Pointer GenerateColorTableWidgetCodeGenerator::New(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
+{
+  Pointer sharedPtr(new Self(humanLabel, propertyName, category, initValue));
+  return sharedPtr;
 }

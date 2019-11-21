@@ -40,7 +40,7 @@
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-ScalarTypeWidgetCodeGenerator::ScalarTypeWidgetCodeGenerator(QString humanLabel, QString propertyName, QString category, QString initValue)
+ScalarTypeWidgetCodeGenerator::ScalarTypeWidgetCodeGenerator(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
 : FPCodeGenerator(humanLabel, propertyName, category, initValue, "SIMPL::NumericTypes::Type", true)
 {
 }
@@ -48,13 +48,12 @@ ScalarTypeWidgetCodeGenerator::ScalarTypeWidgetCodeGenerator(QString humanLabel,
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-ScalarTypeWidgetCodeGenerator::~ScalarTypeWidgetCodeGenerator()
-{}
+ScalarTypeWidgetCodeGenerator::~ScalarTypeWidgetCodeGenerator() = default;
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString ScalarTypeWidgetCodeGenerator::generateSetupFilterParameters()
+QString ScalarTypeWidgetCodeGenerator::generateSetupFilterParameters() const
 {
   QString s;
   QTextStream out(&s);
@@ -65,7 +64,7 @@ QString ScalarTypeWidgetCodeGenerator::generateSetupFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString ScalarTypeWidgetCodeGenerator::generateDataCheck()
+QString ScalarTypeWidgetCodeGenerator::generateDataCheck() const
 {
   return "";
 }
@@ -73,7 +72,7 @@ QString ScalarTypeWidgetCodeGenerator::generateDataCheck()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString ScalarTypeWidgetCodeGenerator::generateFilterParameters()
+QString ScalarTypeWidgetCodeGenerator::generateFilterParameters() const
 {
   QString contents;
   QTextStream ss(&contents);
@@ -86,7 +85,7 @@ QString ScalarTypeWidgetCodeGenerator::generateFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QList<QString> ScalarTypeWidgetCodeGenerator::generateCPPIncludes()
+QList<QString> ScalarTypeWidgetCodeGenerator::generateCPPIncludes() const
 {
   QList<QString> list;
   list.push_back("#include \"SIMPLib/FilterParameters/ScalarTypeFilterParameter.h\"");
@@ -97,4 +96,11 @@ QList<QString> ScalarTypeWidgetCodeGenerator::generateCPPIncludes()
 ScalarTypeWidgetCodeGenerator::Pointer ScalarTypeWidgetCodeGenerator::NullPointer()
 {
   return Pointer(static_cast<Self*>(nullptr));
+}
+
+// -----------------------------------------------------------------------------
+ScalarTypeWidgetCodeGenerator::Pointer ScalarTypeWidgetCodeGenerator::New(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
+{
+  Pointer sharedPtr(new Self(humanLabel, propertyName, category, initValue));
+  return sharedPtr;
 }

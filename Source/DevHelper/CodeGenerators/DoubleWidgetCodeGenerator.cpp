@@ -40,7 +40,7 @@
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-DoubleWidgetCodeGenerator::DoubleWidgetCodeGenerator(QString humanLabel, QString propertyName, QString category, QString initValue)
+DoubleWidgetCodeGenerator::DoubleWidgetCodeGenerator(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
 : FPCodeGenerator(humanLabel, propertyName, category, initValue, "double", true)
 {
 }
@@ -48,13 +48,12 @@ DoubleWidgetCodeGenerator::DoubleWidgetCodeGenerator(QString humanLabel, QString
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-DoubleWidgetCodeGenerator::~DoubleWidgetCodeGenerator()
-{}
+DoubleWidgetCodeGenerator::~DoubleWidgetCodeGenerator() = default;
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString DoubleWidgetCodeGenerator::generateSetupFilterParameters()
+QString DoubleWidgetCodeGenerator::generateSetupFilterParameters() const
 {
   QString s;
   QTextStream out(&s);
@@ -65,7 +64,7 @@ QString DoubleWidgetCodeGenerator::generateSetupFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString DoubleWidgetCodeGenerator::generateDataCheck()
+QString DoubleWidgetCodeGenerator::generateDataCheck() const
 {
   return "";
 }
@@ -73,7 +72,7 @@ QString DoubleWidgetCodeGenerator::generateDataCheck()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString DoubleWidgetCodeGenerator::generateFilterParameters()
+QString DoubleWidgetCodeGenerator::generateFilterParameters() const
 {
   QString contents;
   QTextStream ss(&contents);
@@ -84,14 +83,14 @@ QString DoubleWidgetCodeGenerator::generateFilterParameters()
 }
 
 // -----------------------------------------------------------------------------
-QString DoubleWidgetCodeGenerator::generateInitializationList()
+QString DoubleWidgetCodeGenerator::generateInitializationList() const
 {
   return QString(", m_" + getPropertyName() + "(" + getInitValue() + ")");
 }
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QList<QString> DoubleWidgetCodeGenerator::generateCPPIncludes()
+QList<QString> DoubleWidgetCodeGenerator::generateCPPIncludes() const
 {
   QList<QString> list;
   list.push_back("#include \"SIMPLib/FilterParameters/DoubleFilterParameter.h\"");
@@ -102,4 +101,11 @@ QList<QString> DoubleWidgetCodeGenerator::generateCPPIncludes()
 DoubleWidgetCodeGenerator::Pointer DoubleWidgetCodeGenerator::NullPointer()
 {
   return Pointer(static_cast<Self*>(nullptr));
+}
+
+// -----------------------------------------------------------------------------
+DoubleWidgetCodeGenerator::Pointer DoubleWidgetCodeGenerator::New(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
+{
+  Pointer sharedPtr(new Self(humanLabel, propertyName, category, initValue));
+  return sharedPtr;
 }

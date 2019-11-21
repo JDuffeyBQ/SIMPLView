@@ -40,7 +40,7 @@
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-ChoiceWidgetCodeGenerator::ChoiceWidgetCodeGenerator(QString humanLabel, QString propertyName, QString category, QString initValue)
+ChoiceWidgetCodeGenerator::ChoiceWidgetCodeGenerator(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
 : FPCodeGenerator(humanLabel, propertyName, category, initValue, "int", true)
 {
 }
@@ -48,13 +48,12 @@ ChoiceWidgetCodeGenerator::ChoiceWidgetCodeGenerator(QString humanLabel, QString
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-ChoiceWidgetCodeGenerator::~ChoiceWidgetCodeGenerator()
-{}
+ChoiceWidgetCodeGenerator::~ChoiceWidgetCodeGenerator() = default;
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString ChoiceWidgetCodeGenerator::generateSetupFilterParameters()
+QString ChoiceWidgetCodeGenerator::generateSetupFilterParameters() const
 {
   QString contents;
   QTextStream ss(&contents);
@@ -78,7 +77,7 @@ QString ChoiceWidgetCodeGenerator::generateSetupFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString ChoiceWidgetCodeGenerator::generateDataCheck()
+QString ChoiceWidgetCodeGenerator::generateDataCheck() const
 {
   return "";
 }
@@ -86,7 +85,7 @@ QString ChoiceWidgetCodeGenerator::generateDataCheck()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString ChoiceWidgetCodeGenerator::generateFilterParameters()
+QString ChoiceWidgetCodeGenerator::generateFilterParameters() const
 {
   QString contents;
   QTextStream ss(&contents);
@@ -99,7 +98,7 @@ QString ChoiceWidgetCodeGenerator::generateFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QList<QString> ChoiceWidgetCodeGenerator::generateCPPIncludes()
+QList<QString> ChoiceWidgetCodeGenerator::generateCPPIncludes() const
 {
   QList<QString> list;
   list.push_back("#include \"SIMPLib/FilterParameters/ChoiceFilterParameter.h\"");
@@ -110,4 +109,11 @@ QList<QString> ChoiceWidgetCodeGenerator::generateCPPIncludes()
 ChoiceWidgetCodeGenerator::Pointer ChoiceWidgetCodeGenerator::NullPointer()
 {
   return Pointer(static_cast<Self*>(nullptr));
+}
+
+// -----------------------------------------------------------------------------
+ChoiceWidgetCodeGenerator::Pointer ChoiceWidgetCodeGenerator::New(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
+{
+  Pointer sharedPtr(new Self(humanLabel, propertyName, category, initValue));
+  return sharedPtr;
 }

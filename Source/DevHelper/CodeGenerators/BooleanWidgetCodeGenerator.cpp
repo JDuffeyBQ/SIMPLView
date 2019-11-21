@@ -39,7 +39,7 @@
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-BooleanWidgetCodeGenerator::BooleanWidgetCodeGenerator(QString humanLabel, QString propertyName, QString category, QString initValue)
+BooleanWidgetCodeGenerator::BooleanWidgetCodeGenerator(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
 : FPCodeGenerator(humanLabel, propertyName, category, initValue, "bool", true)
 {
 }
@@ -47,13 +47,12 @@ BooleanWidgetCodeGenerator::BooleanWidgetCodeGenerator(QString humanLabel, QStri
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-BooleanWidgetCodeGenerator::~BooleanWidgetCodeGenerator()
-{}
+BooleanWidgetCodeGenerator::~BooleanWidgetCodeGenerator() = default;
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString BooleanWidgetCodeGenerator::generateSetupFilterParameters()
+QString BooleanWidgetCodeGenerator::generateSetupFilterParameters() const
 {
   QString s;
   QTextStream out(&s);
@@ -64,7 +63,7 @@ QString BooleanWidgetCodeGenerator::generateSetupFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString BooleanWidgetCodeGenerator::generateDataCheck()
+QString BooleanWidgetCodeGenerator::generateDataCheck() const
 {
   return "";
 }
@@ -72,7 +71,7 @@ QString BooleanWidgetCodeGenerator::generateDataCheck()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString BooleanWidgetCodeGenerator::generateFilterParameters()
+QString BooleanWidgetCodeGenerator::generateFilterParameters() const
 {
   QString contents;
   QTextStream ss(&contents);
@@ -85,7 +84,7 @@ QString BooleanWidgetCodeGenerator::generateFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QList<QString> BooleanWidgetCodeGenerator::generateCPPIncludes()
+QList<QString> BooleanWidgetCodeGenerator::generateCPPIncludes() const
 {
   QList<QString> list;
   list.push_back("#include \"SIMPLib/FilterParameters/BooleanFilterParameter.h\"");
@@ -96,4 +95,11 @@ QList<QString> BooleanWidgetCodeGenerator::generateCPPIncludes()
 BooleanWidgetCodeGenerator::Pointer BooleanWidgetCodeGenerator::NullPointer()
 {
   return Pointer(static_cast<Self*>(nullptr));
+}
+
+// -----------------------------------------------------------------------------
+BooleanWidgetCodeGenerator::Pointer BooleanWidgetCodeGenerator::New(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
+{
+  Pointer sharedPtr(new Self(humanLabel, propertyName, category, initValue));
+  return sharedPtr;
 }

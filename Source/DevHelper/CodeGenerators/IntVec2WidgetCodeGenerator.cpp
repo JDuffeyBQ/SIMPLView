@@ -38,7 +38,7 @@
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-IntVec2WidgetCodeGenerator::IntVec2WidgetCodeGenerator(QString humanLabel, QString propertyName, QString category, QString initValue)
+IntVec2WidgetCodeGenerator::IntVec2WidgetCodeGenerator(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
 : FPCodeGenerator(humanLabel, propertyName, category, initValue, "IntVec2Type")
 {
 }
@@ -46,14 +46,12 @@ IntVec2WidgetCodeGenerator::IntVec2WidgetCodeGenerator(QString humanLabel, QStri
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-IntVec2WidgetCodeGenerator::~IntVec2WidgetCodeGenerator()
-{
-}
+IntVec2WidgetCodeGenerator::~IntVec2WidgetCodeGenerator() = default;
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString IntVec2WidgetCodeGenerator::generateSetupFilterParameters()
+QString IntVec2WidgetCodeGenerator::generateSetupFilterParameters() const
 {
   QString s;
   QTextStream out(&s);
@@ -64,7 +62,7 @@ QString IntVec2WidgetCodeGenerator::generateSetupFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString IntVec2WidgetCodeGenerator::generateDataCheck()
+QString IntVec2WidgetCodeGenerator::generateDataCheck() const
 {
   return "";
 }
@@ -72,7 +70,7 @@ QString IntVec2WidgetCodeGenerator::generateDataCheck()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString IntVec2WidgetCodeGenerator::generateFilterParameters()
+QString IntVec2WidgetCodeGenerator::generateFilterParameters() const
 {
   QString contents;
   QTextStream ss(&contents);
@@ -85,7 +83,7 @@ QString IntVec2WidgetCodeGenerator::generateFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QList<QString> IntVec2WidgetCodeGenerator::generateHIncludes()
+QList<QString> IntVec2WidgetCodeGenerator::generateHIncludes() const
 {
   QList<QString> list;
   list.push_back("#include \"SIMPLib/FilterParameters/IntVec2FilterParameter.h\"");
@@ -96,4 +94,11 @@ QList<QString> IntVec2WidgetCodeGenerator::generateHIncludes()
 IntVec2WidgetCodeGenerator::Pointer IntVec2WidgetCodeGenerator::NullPointer()
 {
   return Pointer(static_cast<Self*>(nullptr));
+}
+
+// -----------------------------------------------------------------------------
+IntVec2WidgetCodeGenerator::Pointer IntVec2WidgetCodeGenerator::New(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
+{
+  Pointer sharedPtr(new Self(humanLabel, propertyName, category, initValue));
+  return sharedPtr;
 }

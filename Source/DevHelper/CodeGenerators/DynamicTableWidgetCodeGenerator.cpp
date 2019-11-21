@@ -40,7 +40,7 @@
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-DynamicTableWidgetCodeGenerator::DynamicTableWidgetCodeGenerator(QString humanLabel, QString propertyName, QString category, QString initValue)
+DynamicTableWidgetCodeGenerator::DynamicTableWidgetCodeGenerator(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
 : FPCodeGenerator(humanLabel, propertyName, category, initValue, "DynamicTableData")
 {
 }
@@ -48,13 +48,12 @@ DynamicTableWidgetCodeGenerator::DynamicTableWidgetCodeGenerator(QString humanLa
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-DynamicTableWidgetCodeGenerator::~DynamicTableWidgetCodeGenerator()
-{}
+DynamicTableWidgetCodeGenerator::~DynamicTableWidgetCodeGenerator() = default;
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString DynamicTableWidgetCodeGenerator::generateSetupFilterParameters()
+QString DynamicTableWidgetCodeGenerator::generateSetupFilterParameters() const
 {
   QString s;
   QTextStream out(&s);
@@ -66,7 +65,7 @@ QString DynamicTableWidgetCodeGenerator::generateSetupFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString DynamicTableWidgetCodeGenerator::generateDataCheck()
+QString DynamicTableWidgetCodeGenerator::generateDataCheck() const
 {
   return "";
 }
@@ -74,7 +73,7 @@ QString DynamicTableWidgetCodeGenerator::generateDataCheck()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString DynamicTableWidgetCodeGenerator::generateFilterParameters()
+QString DynamicTableWidgetCodeGenerator::generateFilterParameters() const
 {
   QString contents;
   QTextStream ss(&contents);
@@ -87,7 +86,7 @@ QString DynamicTableWidgetCodeGenerator::generateFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QList<QString> DynamicTableWidgetCodeGenerator::generateHIncludes()
+QList<QString> DynamicTableWidgetCodeGenerator::generateHIncludes() const
 {
   QList<QString> list;
   list.push_back("#include \"SIMPLib/FilterParameters/DynamicTableData.h\"");
@@ -97,7 +96,7 @@ QList<QString> DynamicTableWidgetCodeGenerator::generateHIncludes()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QList<QString> DynamicTableWidgetCodeGenerator::generateCPPIncludes()
+QList<QString> DynamicTableWidgetCodeGenerator::generateCPPIncludes() const
 {
   QList<QString> list;
   list.push_back("#include \"SIMPLib/FilterParameters/DynamicTableFilterParameter.h\"");
@@ -108,4 +107,11 @@ QList<QString> DynamicTableWidgetCodeGenerator::generateCPPIncludes()
 DynamicTableWidgetCodeGenerator::Pointer DynamicTableWidgetCodeGenerator::NullPointer()
 {
   return Pointer(static_cast<Self*>(nullptr));
+}
+
+// -----------------------------------------------------------------------------
+DynamicTableWidgetCodeGenerator::Pointer DynamicTableWidgetCodeGenerator::New(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
+{
+  Pointer sharedPtr(new Self(humanLabel, propertyName, category, initValue));
+  return sharedPtr;
 }

@@ -38,14 +38,6 @@
 #include <QtCore/QTextStream>
 
 // -----------------------------------------------------------------------------
-MontageStructureSelectionWidgetCodeGenerator::Pointer MontageStructureSelectionWidgetCodeGenerator::New(const QString& humanLabel, const QString& propertyName, const QString& category,
-                                                                                                        const QString& initValue)
-{
-  Pointer sharedPtr(new MontageStructureSelectionWidgetCodeGenerator(humanLabel, propertyName, category, initValue));
-  return sharedPtr;
-}
-
-// -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
 MontageStructureSelectionWidgetCodeGenerator::MontageStructureSelectionWidgetCodeGenerator(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
@@ -61,7 +53,7 @@ MontageStructureSelectionWidgetCodeGenerator::~MontageStructureSelectionWidgetCo
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString MontageStructureSelectionWidgetCodeGenerator::generateSetupFilterParameters()
+QString MontageStructureSelectionWidgetCodeGenerator::generateSetupFilterParameters() const
 {
   QString s;
   QTextStream out(&s);
@@ -73,7 +65,7 @@ QString MontageStructureSelectionWidgetCodeGenerator::generateSetupFilterParamet
 // -----------------------------------------------------------------------------b
 //
 // -----------------------------------------------------------------------------
-QString MontageStructureSelectionWidgetCodeGenerator::generateDataCheck()
+QString MontageStructureSelectionWidgetCodeGenerator::generateDataCheck() const
 {
   return "";
 }
@@ -81,7 +73,7 @@ QString MontageStructureSelectionWidgetCodeGenerator::generateDataCheck()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString MontageStructureSelectionWidgetCodeGenerator::generateFilterParameters()
+QString MontageStructureSelectionWidgetCodeGenerator::generateFilterParameters() const
 {
   QString contents;
   QTextStream ss(&contents);
@@ -94,7 +86,7 @@ QString MontageStructureSelectionWidgetCodeGenerator::generateFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QList<QString> MontageStructureSelectionWidgetCodeGenerator::generateCPPIncludes()
+QList<QString> MontageStructureSelectionWidgetCodeGenerator::generateCPPIncludes() const
 {
   QList<QString> list;
   list.push_back("#include \"SIMPLib/FilterParameters/DataContainerCreationFilterParameter.h\"");
@@ -105,4 +97,12 @@ QList<QString> MontageStructureSelectionWidgetCodeGenerator::generateCPPIncludes
 MontageStructureSelectionWidgetCodeGenerator::Pointer MontageStructureSelectionWidgetCodeGenerator::NullPointer()
 {
   return Pointer(static_cast<Self*>(nullptr));
+}
+
+// -----------------------------------------------------------------------------
+MontageStructureSelectionWidgetCodeGenerator::Pointer MontageStructureSelectionWidgetCodeGenerator::New(const QString& humanLabel, const QString& propertyName, const QString& category,
+                                                                                                        const QString& initValue)
+{
+  Pointer sharedPtr(new MontageStructureSelectionWidgetCodeGenerator(humanLabel, propertyName, category, initValue));
+  return sharedPtr;
 }

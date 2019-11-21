@@ -40,7 +40,7 @@
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-StringWidgetCodeGenerator::StringWidgetCodeGenerator(QString humanLabel, QString propertyName, QString category, QString initValue)
+StringWidgetCodeGenerator::StringWidgetCodeGenerator(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
 : FPCodeGenerator(humanLabel, propertyName, category, initValue, "QString")
 {
 }
@@ -48,13 +48,12 @@ StringWidgetCodeGenerator::StringWidgetCodeGenerator(QString humanLabel, QString
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-StringWidgetCodeGenerator::~StringWidgetCodeGenerator()
-{}
+StringWidgetCodeGenerator::~StringWidgetCodeGenerator() = default;
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString StringWidgetCodeGenerator::generateSetupFilterParameters()
+QString StringWidgetCodeGenerator::generateSetupFilterParameters() const
 {
   QString s;
   QTextStream out(&s);
@@ -65,7 +64,7 @@ QString StringWidgetCodeGenerator::generateSetupFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString StringWidgetCodeGenerator::generateDataCheck()
+QString StringWidgetCodeGenerator::generateDataCheck() const
 {
   return "";
 }
@@ -73,7 +72,7 @@ QString StringWidgetCodeGenerator::generateDataCheck()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString StringWidgetCodeGenerator::generateFilterParameters()
+QString StringWidgetCodeGenerator::generateFilterParameters() const
 {
   QString contents;
   QTextStream ss(&contents);
@@ -86,7 +85,7 @@ QString StringWidgetCodeGenerator::generateFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QList<QString> StringWidgetCodeGenerator::generateCPPIncludes()
+QList<QString> StringWidgetCodeGenerator::generateCPPIncludes() const
 {
   QList<QString> list;
   list.push_back("#include \"SIMPLib/FilterParameters/StringFilterParameter.h\"");
@@ -97,4 +96,11 @@ QList<QString> StringWidgetCodeGenerator::generateCPPIncludes()
 StringWidgetCodeGenerator::Pointer StringWidgetCodeGenerator::NullPointer()
 {
   return Pointer(static_cast<Self*>(nullptr));
+}
+
+// -----------------------------------------------------------------------------
+StringWidgetCodeGenerator::Pointer StringWidgetCodeGenerator::New(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
+{
+  Pointer sharedPtr(new Self(humanLabel, propertyName, category, initValue));
+  return sharedPtr;
 }

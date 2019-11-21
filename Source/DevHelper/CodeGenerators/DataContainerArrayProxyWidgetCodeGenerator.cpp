@@ -40,7 +40,7 @@
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-DataContainerArrayProxyWidgetCodeGenerator::DataContainerArrayProxyWidgetCodeGenerator(QString humanLabel, QString propertyName, QString category, QString initValue)
+DataContainerArrayProxyWidgetCodeGenerator::DataContainerArrayProxyWidgetCodeGenerator(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
 : FPCodeGenerator(humanLabel, propertyName, category, initValue, "DataContainerArrayProxy")
 {
 }
@@ -53,7 +53,7 @@ DataContainerArrayProxyWidgetCodeGenerator::~DataContainerArrayProxyWidgetCodeGe
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString DataContainerArrayProxyWidgetCodeGenerator::generateSetupFilterParameters()
+QString DataContainerArrayProxyWidgetCodeGenerator::generateSetupFilterParameters() const
 {
   QString s;
   QTextStream out(&s);
@@ -64,7 +64,7 @@ QString DataContainerArrayProxyWidgetCodeGenerator::generateSetupFilterParameter
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString DataContainerArrayProxyWidgetCodeGenerator::generateDataCheck()
+QString DataContainerArrayProxyWidgetCodeGenerator::generateDataCheck() const
 {
   return "";
 }
@@ -72,7 +72,7 @@ QString DataContainerArrayProxyWidgetCodeGenerator::generateDataCheck()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString DataContainerArrayProxyWidgetCodeGenerator::generateFilterParameters()
+QString DataContainerArrayProxyWidgetCodeGenerator::generateFilterParameters() const
 {
   QString contents;
   QTextStream ss(&contents);
@@ -85,7 +85,7 @@ QString DataContainerArrayProxyWidgetCodeGenerator::generateFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QList<QString> DataContainerArrayProxyWidgetCodeGenerator::generateCPPIncludes()
+QList<QString> DataContainerArrayProxyWidgetCodeGenerator::generateCPPIncludes() const
 {
   QList<QString> list;
   list.push_back("#include \"SIMPLib/FilterParameters/DataContainerArrayProxyFilterParameter.h\"");
@@ -96,4 +96,11 @@ QList<QString> DataContainerArrayProxyWidgetCodeGenerator::generateCPPIncludes()
 DataContainerArrayProxyWidgetCodeGenerator::Pointer DataContainerArrayProxyWidgetCodeGenerator::NullPointer()
 {
   return Pointer(static_cast<Self*>(nullptr));
+}
+
+// -----------------------------------------------------------------------------
+DataContainerArrayProxyWidgetCodeGenerator::Pointer DataContainerArrayProxyWidgetCodeGenerator::New(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
+{
+  Pointer sharedPtr(new Self(humanLabel, propertyName, category, initValue));
+  return sharedPtr;
 }

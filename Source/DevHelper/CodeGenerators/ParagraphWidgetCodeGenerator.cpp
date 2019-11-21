@@ -38,7 +38,7 @@
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-ParagraphWidgetCodeGenerator::ParagraphWidgetCodeGenerator(QString humanLabel, QString propertyName, QString category, QString initValue)
+ParagraphWidgetCodeGenerator::ParagraphWidgetCodeGenerator(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
 : FPCodeGenerator(humanLabel, propertyName, category, initValue, "QString")
 {
 }
@@ -51,7 +51,7 @@ ParagraphWidgetCodeGenerator::~ParagraphWidgetCodeGenerator() = default;
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString ParagraphWidgetCodeGenerator::generateSetupFilterParameters()
+QString ParagraphWidgetCodeGenerator::generateSetupFilterParameters() const
 {
   QString s;
   QTextStream out(&s);
@@ -62,7 +62,7 @@ QString ParagraphWidgetCodeGenerator::generateSetupFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString ParagraphWidgetCodeGenerator::generateDataCheck()
+QString ParagraphWidgetCodeGenerator::generateDataCheck() const
 {
   return "";
 }
@@ -70,7 +70,7 @@ QString ParagraphWidgetCodeGenerator::generateDataCheck()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString ParagraphWidgetCodeGenerator::generateFilterParameters()
+QString ParagraphWidgetCodeGenerator::generateFilterParameters() const
 {
   QString contents;
   QTextStream ss(&contents);
@@ -83,7 +83,7 @@ QString ParagraphWidgetCodeGenerator::generateFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QList<QString> ParagraphWidgetCodeGenerator::generateCPPIncludes()
+QList<QString> ParagraphWidgetCodeGenerator::generateCPPIncludes() const
 {
   QList<QString> list;
   list.push_back("#include \"SIMPLib/FilterParameters/ParagraphFilterParameter.h\"");
@@ -94,4 +94,11 @@ QList<QString> ParagraphWidgetCodeGenerator::generateCPPIncludes()
 ParagraphWidgetCodeGenerator::Pointer ParagraphWidgetCodeGenerator::NullPointer()
 {
   return Pointer(static_cast<Self*>(nullptr));
+}
+
+// -----------------------------------------------------------------------------
+ParagraphWidgetCodeGenerator::Pointer ParagraphWidgetCodeGenerator::New(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
+{
+  Pointer sharedPtr(new Self(humanLabel, propertyName, category, initValue));
+  return sharedPtr;
 }

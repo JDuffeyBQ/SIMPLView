@@ -39,7 +39,7 @@
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-DataArraySelectionWidgetCodeGenerator::DataArraySelectionWidgetCodeGenerator(QString humanLabel, QString propertyName, QString category, QString initValue)
+DataArraySelectionWidgetCodeGenerator::DataArraySelectionWidgetCodeGenerator(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
 : FPCodeGenerator(humanLabel, propertyName, category, initValue, "DataArrayPath")
 {
 }
@@ -47,13 +47,12 @@ DataArraySelectionWidgetCodeGenerator::DataArraySelectionWidgetCodeGenerator(QSt
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-DataArraySelectionWidgetCodeGenerator::~DataArraySelectionWidgetCodeGenerator()
-{}
+DataArraySelectionWidgetCodeGenerator::~DataArraySelectionWidgetCodeGenerator() = default;
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString DataArraySelectionWidgetCodeGenerator::generateSetupFilterParameters()
+QString DataArraySelectionWidgetCodeGenerator::generateSetupFilterParameters() const
 {
   QString s;
   QTextStream out(&s);
@@ -65,7 +64,7 @@ QString DataArraySelectionWidgetCodeGenerator::generateSetupFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString DataArraySelectionWidgetCodeGenerator::generateDataCheck()
+QString DataArraySelectionWidgetCodeGenerator::generateDataCheck() const
 {
   return "";
 }
@@ -73,7 +72,7 @@ QString DataArraySelectionWidgetCodeGenerator::generateDataCheck()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString DataArraySelectionWidgetCodeGenerator::generateFilterParameters()
+QString DataArraySelectionWidgetCodeGenerator::generateFilterParameters() const
 {
   QString contents;
   QTextStream ss(&contents);
@@ -86,7 +85,7 @@ QString DataArraySelectionWidgetCodeGenerator::generateFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QList<QString> DataArraySelectionWidgetCodeGenerator::generateCPPIncludes()
+QList<QString> DataArraySelectionWidgetCodeGenerator::generateCPPIncludes() const
 {
   QList<QString> list;
   list.push_back("#include \"SIMPLib/FilterParameters/DataArraySelectionFilterParameter.h\"");
@@ -97,4 +96,11 @@ QList<QString> DataArraySelectionWidgetCodeGenerator::generateCPPIncludes()
 DataArraySelectionWidgetCodeGenerator::Pointer DataArraySelectionWidgetCodeGenerator::NullPointer()
 {
   return Pointer(static_cast<Self*>(nullptr));
+}
+
+// -----------------------------------------------------------------------------
+DataArraySelectionWidgetCodeGenerator::Pointer DataArraySelectionWidgetCodeGenerator::New(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
+{
+  Pointer sharedPtr(new Self(humanLabel, propertyName, category, initValue));
+  return sharedPtr;
 }

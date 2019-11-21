@@ -40,7 +40,7 @@
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-FourthOrderPolynomialWidgetCodeGenerator::FourthOrderPolynomialWidgetCodeGenerator(QString humanLabel, QString propertyName, QString category, QString initValue)
+FourthOrderPolynomialWidgetCodeGenerator::FourthOrderPolynomialWidgetCodeGenerator(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
 : FPCodeGenerator(humanLabel, propertyName, category, initValue, "Float4thOrderPoly_t")
 {
 }
@@ -48,13 +48,12 @@ FourthOrderPolynomialWidgetCodeGenerator::FourthOrderPolynomialWidgetCodeGenerat
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-FourthOrderPolynomialWidgetCodeGenerator::~FourthOrderPolynomialWidgetCodeGenerator()
-{}
+FourthOrderPolynomialWidgetCodeGenerator::~FourthOrderPolynomialWidgetCodeGenerator() = default;
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString FourthOrderPolynomialWidgetCodeGenerator::generateSetupFilterParameters()
+QString FourthOrderPolynomialWidgetCodeGenerator::generateSetupFilterParameters() const
 {
   QString s;
   QTextStream out(&s);
@@ -65,7 +64,7 @@ QString FourthOrderPolynomialWidgetCodeGenerator::generateSetupFilterParameters(
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString FourthOrderPolynomialWidgetCodeGenerator::generateDataCheck()
+QString FourthOrderPolynomialWidgetCodeGenerator::generateDataCheck() const
 {
   return "";
 }
@@ -73,7 +72,7 @@ QString FourthOrderPolynomialWidgetCodeGenerator::generateDataCheck()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QString FourthOrderPolynomialWidgetCodeGenerator::generateFilterParameters()
+QString FourthOrderPolynomialWidgetCodeGenerator::generateFilterParameters() const
 {
   QString contents;
   QTextStream ss(&contents);
@@ -86,7 +85,7 @@ QString FourthOrderPolynomialWidgetCodeGenerator::generateFilterParameters()
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-QList<QString> FourthOrderPolynomialWidgetCodeGenerator::generateHIncludes()
+QList<QString> FourthOrderPolynomialWidgetCodeGenerator::generateHIncludes() const
 {
   QList<QString> list;
   list.push_back("#include \"SIMPLib/FilterParameters/FourthOrderPolynomialFilterParameter.h\"");
@@ -97,4 +96,11 @@ QList<QString> FourthOrderPolynomialWidgetCodeGenerator::generateHIncludes()
 FourthOrderPolynomialWidgetCodeGenerator::Pointer FourthOrderPolynomialWidgetCodeGenerator::NullPointer()
 {
   return Pointer(static_cast<Self*>(nullptr));
+}
+
+// -----------------------------------------------------------------------------
+FourthOrderPolynomialWidgetCodeGenerator::Pointer FourthOrderPolynomialWidgetCodeGenerator::New(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
+{
+  Pointer sharedPtr(new Self(humanLabel, propertyName, category, initValue));
+  return sharedPtr;
 }
