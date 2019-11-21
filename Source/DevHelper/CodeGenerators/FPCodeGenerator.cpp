@@ -40,12 +40,12 @@
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-FPCodeGenerator::FPCodeGenerator(QString humanLabel, QString propertyName, QString category, QString initValue, QString varType, bool podType)
-: m_PropertyName(std::move(propertyName))
-, m_HumanLabel(std::move(humanLabel))
-, m_Category(std::move(category))
-, m_InitValue(std::move(initValue))
-, m_VariableType(std::move(varType))
+FPCodeGenerator::FPCodeGenerator(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue, const QString& varType, bool podType)
+: m_PropertyName(propertyName)
+, m_HumanLabel(humanLabel)
+, m_Category(category)
+, m_InitValue(initValue)
+, m_VariableType(varType)
 , m_PODType(podType)
 {
   if (category == "Parameter")
@@ -67,9 +67,9 @@ FPCodeGenerator::FPCodeGenerator(QString humanLabel, QString propertyName, QStri
 }
 
 // -----------------------------------------------------------------------------
-FPCodeGenerator::Pointer FPCodeGenerator::New(QString humanLabel, QString propertyName, QString category, QString initValue)
+FPCodeGenerator::Pointer FPCodeGenerator::New(const QString& humanLabel, const QString& propertyName, const QString& category, const QString& initValue)
 {
-  Pointer sharedPtr(new FPCodeGenerator(std::move(humanLabel), std::move(propertyName), std::move(category), std::move(initValue), "UNKNOWN", false));
+  Pointer sharedPtr(new FPCodeGenerator(humanLabel, propertyName, category, initValue, "UNKNOWN", false));
   return sharedPtr;
 }
 
